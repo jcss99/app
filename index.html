@@ -4,610 +4,153 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>App Store</title>
-<link rel="icon" href="icon1.png" type="image/png">
+<link rel="icon" href="icon1.png">
 <link rel="apple-touch-icon" href="icon1.png">
 <style>
-  :root {
-    --blue: #007AFF;
-    --gray: #8E8E93;
-    --sep: rgba(60,60,67,0.18);
-    --safe-bottom: env(safe-area-inset-bottom, 0px);
-  }
-  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; -webkit-font-smoothing:antialiased; }
-  html, body {
-    height: 100%;
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", sans-serif;
-    background:#fff; color:#000;
-    overflow-x: hidden;
-  }
-  .wrap {
-    max-width: 430px;
-    margin: 0 auto;
-    min-height: 100%;
-    position: relative;
-    background: #fff;
-  }
-  .view {
-    display: none;
-    min-height: 100%;
-    padding-bottom: calc(83px + var(--safe-bottom));
-  }
-  .view.active { display: block; }
+:root{--blue:#007AFF;--gray:#8E8E93;--sep:rgba(60,60,67,.18);--safe:env(safe-area-inset-bottom,0px)}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-font-smoothing:antialiased}
+html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Helvetica Neue",sans-serif;background:#fff;color:#000;overflow-x:hidden}
+.wrap{max-width:430px;margin:0 auto;min-height:100%;position:relative;background:#fff}
+.view{display:none;min-height:100%;padding-bottom:calc(83px + var(--safe))}
+.view.active{display:block}
 
-  /* ===== SEARCH BAR ===== */
-  .search-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 8px 16px 10px;
-    background: #fff;
-    position: sticky;
-    top: 0;
-    z-index: 50;
-  }
-  .search-field {
-    flex: 1;
-    background: #EFEFF0;
-    border-radius: 12px;
-    height: 38px;
-    display: flex;
-    align-items: center;
-    padding: 0 10px 0 12px;
-    gap: 8px;
-  }
-  .search-field input {
-    border: none;
-    background: transparent;
-    font-size: 17px;
-    width: 100%;
-    outline: none;
-    font-family: inherit;
-    color: #000;
-  }
-  .search-field input::placeholder { color: var(--gray); }
-  .clear-x {
-    width: 28px; height: 28px;
-    border-radius: 50%;
-    background: #C7C7CC;
-    border: none;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer; flex-shrink: 0;
-  }
-  .clear-x svg { width: 11px; height: 11px; }
-  .cancel-x {
-    background: transparent;
-    border: none;
-    color: var(--blue);
-    font-size: 17px;
-    font-weight: 400;
-    padding: 0 2px;
-    cursor: pointer;
-    font-family: inherit;
-  }
+/* Search */
+.search-row{display:flex;align-items:center;gap:12px;padding:8px 16px 10px;background:#fff;position:sticky;top:0;z-index:50}
+.search-field{flex:1;background:#EFEFF0;border-radius:12px;height:38px;display:flex;align-items:center;padding:0 10px 0 12px;gap:8px}
+.search-field input{border:none;background:transparent;font-size:17px;width:100%;outline:none;font-family:inherit;color:#000}
+.search-field input::placeholder{color:var(--gray)}
+.clear-x{width:28px;height:28px;border-radius:50%;background:#C7C7CC;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
+.clear-x svg{width:11px;height:11px}
+.cancel-x{background:transparent;border:none;color:var(--blue);font-size:17px;padding:0 2px;cursor:pointer;font-family:inherit}
 
-  /* ===== HOME ===== */
-  .top {
-    padding: 10px 20px 6px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .top h1 {
-    font-size: 34px;
-    font-weight: 700;
-    letter-spacing: -0.6px;
-  }
-  .avatar {
-    width: 34px; height: 34px;
-    border-radius: 50%;
-    background: #A8D5E5;
-    color: #fff;
-    font-size: 13px;
-    font-weight: 600;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .section-title {
-    font-size: 22px;
-    font-weight: 700;
-    letter-spacing: -0.3px;
-    padding: 16px 20px 10px;
-    display: flex;
-    align-items: center;
-    gap: 3px;
-  }
-  .section-title .chev { color: #C7C7CC; font-weight: 500; font-size: 20px; }
+/* Home */
+.top{padding:10px 20px 6px;display:flex;justify-content:space-between;align-items:center}
+.top h1{font-size:34px;font-weight:700;letter-spacing:-.6px}
+.avatar{width:34px;height:34px;border-radius:50%;background:#A8D5E5;color:#fff;font-size:13px;font-weight:600;display:flex;align-items:center;justify-content:center}
+.section-title{font-size:22px;font-weight:700;letter-spacing:-.3px;padding:16px 20px 10px;display:flex;align-items:center;gap:3px}
+.section-title .chev{color:#C7C7CC;font-weight:500;font-size:20px}
+.suggested-list{padding:0 16px}
+.app-row{display:flex;align-items:center;gap:14px;padding:12px 0}
+.app-row+.app-row{border-top:.5px solid var(--sep)}
+.icon{width:62px;height:62px;border-radius:14px;flex-shrink:0;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.icon img{width:100%;height:100%;object-fit:cover;display:block}
+.info{flex:1;min-width:0}
+.name{font-size:16px;font-weight:500;display:flex;align-items:center;gap:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ad{background:var(--blue);color:#fff;font-size:10px;font-weight:600;padding:1px 5px;border-radius:3px;flex-shrink:0}
+.sub{font-size:13px;color:var(--gray);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.action{display:flex;flex-direction:column;align-items:center;gap:3px;flex-shrink:0}
+.btn{min-width:70px;height:30px;border-radius:15px;font-size:15px;font-weight:600;border:none;cursor:pointer;font-family:inherit;padding:0 14px;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
+.btn-open{background:#E8F1FF;color:var(--blue)}
+.btn-get{background:#EFEFF0;color:var(--blue)}
+.iap{font-size:10px;color:var(--gray)}
+.browse-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:4px 16px 24px}
+.card{height:98px;border-radius:14px;padding:14px;color:#fff;font-size:16px;font-weight:700;letter-spacing:-.3px;line-height:1.25;position:relative;overflow:hidden}
+.card.blue{background:linear-gradient(145deg,#6BA3E8,#4A8AD9)}
+.card.orange{background:linear-gradient(145deg,#F5A26F,#E88A4A)}
+.card.green{background:linear-gradient(145deg,#6BCB8A,#4DB56E)}
+.card.purple{background:linear-gradient(145deg,#A78BFA,#8B6CE8)}
+.card.cyan{background:linear-gradient(145deg,#7EC8E8,#5BB0D9)}
+.card.yellow{background:linear-gradient(145deg,#F5D56B,#E8C04A)}
+.card .deco{position:absolute;right:8px;bottom:6px;opacity:.9;font-size:28px}
 
-  .suggested-list { padding: 0 16px; }
-  .app-row {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 12px 0;
-  }
-  .app-row + .app-row { border-top: 0.5px solid var(--sep); }
-  .icon {
-    width: 62px; height: 62px;
-    border-radius: 14px;
-    flex-shrink: 0;
-    overflow: hidden;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12);
-  }
-  .icon img { width: 100%; height: 100%; object-fit: cover; display: block; }
+/* Suggestions */
+.sugg-list{list-style:none}
+.sugg-item{display:flex;align-items:center;gap:14px;padding:14px 20px;border-bottom:.5px solid var(--sep);font-size:17px;cursor:pointer}
+.sugg-item:active{background:#F2F2F7}
+.sugg-ico{width:22px;height:22px;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#8E8E93}
+.sugg-ico svg{width:20px;height:20px}
 
-  .info { flex: 1; min-width: 0; }
-  .name {
-    font-size: 16px;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .ad {
-    background: var(--blue);
-    color: #fff;
-    font-size: 10px;
-    font-weight: 600;
-    padding: 1px 5px;
-    border-radius: 3px;
-    flex-shrink: 0;
-  }
-  .sub {
-    font-size: 13px;
-    color: var(--gray);
-    margin-top: 2px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .action {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 3px;
-    flex-shrink: 0;
-  }
-  .btn {
-    min-width: 70px;
-    height: 30px;
-    border-radius: 15px;
-    font-size: 15px;
-    font-weight: 600;
-    border: none;
-    cursor: pointer;
-    font-family: inherit;
-    padding: 0 14px;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .btn-open { background: #E8F1FF; color: var(--blue); }
-  .btn-get  { background: #EFEFF0; color: var(--blue); }
-  .iap { font-size: 10px; color: var(--gray); }
+/* Results – fixed */
+.featured{background:#F0F7FF;border-radius:18px;margin:6px 16px 20px;padding:16px}
+.feat-top{display:flex;align-items:flex-start;gap:14px;margin-bottom:10px}
+.feat-icon{width:62px;height:62px;border-radius:14px;overflow:hidden;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+.feat-icon img{width:100%;height:100%;object-fit:cover}
+.feat-info{flex:1;min-width:0}
+.feat-name{font-size:17px;font-weight:600;line-height:1.25;display:flex;align-items:flex-start;gap:6px}
+.feat-sub{font-size:13px;color:var(--gray);margin-top:3px;line-height:1.3}
+.feat-meta{display:flex;flex-wrap:nowrap;gap:14px;font-size:12px;color:var(--gray);margin:8px 0 12px;align-items:center;overflow:hidden}
+.feat-meta span{display:inline-flex;align-items:center;gap:4px;white-space:nowrap}
+.feat-meta svg{width:12px;height:12px;opacity:.7}
+.stars{color:#FF9500;letter-spacing:-.8px;font-size:12px}
+.shots{display:flex;gap:10px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:2px}
+.shots::-webkit-scrollbar{display:none}
+.shot{width:128px;height:228px;border-radius:14px;flex-shrink:0;overflow:hidden;position:relative}
+.shot img{width:100%;height:100%;object-fit:cover;display:block}
 
-  .browse-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    padding: 4px 16px 24px;
-  }
-  .card {
-    height: 98px;
-    border-radius: 14px;
-    padding: 14px;
-    color: #fff;
-    font-size: 16px;
-    font-weight: 700;
-    letter-spacing: -0.3px;
-    line-height: 1.25;
-    position: relative;
-    overflow: hidden;
-  }
-  .card.blue   { background: linear-gradient(145deg,#6BA3E8,#4A8AD9); }
-  .card.orange { background: linear-gradient(145deg,#F5A26F,#E88A4A); }
-  .card.green  { background: linear-gradient(145deg,#6BCB8A,#4DB56E); }
-  .card.purple { background: linear-gradient(145deg,#A78BFA,#8B6CE8); }
-  .card.cyan   { background: linear-gradient(145deg,#7EC8E8,#5BB0D9); }
-  .card.yellow { background: linear-gradient(145deg,#F5D56B,#E8C04A); }
-  .card .deco { position: absolute; right: 8px; bottom: 6px; opacity: 0.9; font-size: 28px; }
+.result-row{display:flex;align-items:center;gap:14px;padding:14px 20px;cursor:pointer}
+.result-row:active{background:#F8F8F8}
+.result-row+.result-row{border-top:.5px solid var(--sep)}
+.result-icon{width:62px;height:62px;border-radius:14px;overflow:hidden;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+.result-icon img{width:100%;height:100%;object-fit:cover}
+.result-info{flex:1;min-width:0}
+.result-name{font-size:17px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.result-sub{font-size:13px;color:var(--gray);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.result-meta{display:flex;flex-wrap:nowrap;gap:10px;font-size:12px;color:var(--gray);margin-top:5px;align-items:center;overflow:hidden}
+.result-meta span{display:inline-flex;align-items:center;gap:3px;white-space:nowrap}
+.result-meta svg{width:11px;height:11px;opacity:.75}
 
-  /* ===== SUGGESTIONS ===== */
-  .sugg-list { list-style: none; }
-  .sugg-item {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 14px 20px;
-    border-bottom: 0.5px solid var(--sep);
-    font-size: 17px;
-    cursor: pointer;
-  }
-  .sugg-item:active { background: #F2F2F7; }
-  .sugg-ico {
-    width: 22px; height: 22px;
-    flex-shrink: 0;
-    display: flex; align-items: center; justify-content: center;
-    color: #8E8E93;
-  }
-  .sugg-ico svg { width: 20px; height: 20px; }
+/* Detail */
+.detail-nav{display:flex;justify-content:space-between;align-items:center;padding:8px 16px;position:sticky;top:0;background:rgba(255,255,255,.94);backdrop-filter:blur(20px);z-index:40}
+.nav-circle{width:34px;height:34px;border-radius:50%;background:#EFEFF0;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.nav-circle svg{width:17px;height:17px}
+.detail-head{display:flex;gap:16px;padding:8px 20px 20px;align-items:flex-start}
+.big-icon{width:118px;height:118px;border-radius:26px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,.12);flex-shrink:0}
+.big-icon img{width:100%;height:100%;object-fit:cover}
+.detail-title{font-size:22px;font-weight:700;letter-spacing:-.3px}
+.detail-dev{font-size:15px;color:var(--gray);margin-top:2px}
+.open-big{margin-top:14px;width:120px;height:34px;border-radius:17px;background:var(--blue);color:#fff;font-size:16px;font-weight:600;border:none;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;text-decoration:none}
+.stats{display:flex;justify-content:space-around;padding:16px 8px;text-align:center;border-top:.5px solid var(--sep);border-bottom:.5px solid var(--sep)}
+.stat-label{font-size:10px;color:var(--gray);text-transform:uppercase;letter-spacing:.3px;margin-bottom:4px}
+.stat-val{font-size:20px;font-weight:600}
+.stat-sub{font-size:12px;color:var(--gray)}
+.sec{padding:20px 20px 8px}
+.sec h2{font-size:22px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:4px}
+.sec h2 .chev{color:var(--gray);font-weight:400}
+.ver-row{display:flex;justify-content:space-between;font-size:15px;color:var(--gray);margin-bottom:10px}
+.whats{font-size:15px;line-height:1.45}
+.preview-row{display:flex;gap:12px;overflow-x:auto;padding:0 20px 28px;-webkit-overflow-scrolling:touch}
+.preview-row::-webkit-scrollbar{display:none}
+.prev{width:210px;height:380px;border-radius:18px;flex-shrink:0;overflow:hidden}
+.prev img{width:100%;height:100%;object-fit:cover}
 
-  /* ===== RESULTS – exact match to screenshot ===== */
-  .featured {
-    background: #F0F7FF;
-    border-radius: 18px;
-    margin: 6px 16px 20px;
-    padding: 16px;
-  }
-  .feat-top {
-    display: flex;
-    align-items: flex-start;
-    gap: 14px;
-    margin-bottom: 12px;
-  }
-  .feat-icon {
-    width: 62px; height: 62px;
-    border-radius: 14px;
-    overflow: hidden;
-    flex-shrink: 0;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-  }
-  .feat-icon img { width: 100%; height: 100%; object-fit: cover; }
-  .feat-info { flex: 1; min-width: 0; }
-  .feat-name {
-    font-size: 17px;
-    font-weight: 600;
-    line-height: 1.25;
-    display: flex;
-    align-items: flex-start;
-    gap: 6px;
-  }
-  .feat-name .ad {
-    margin-top: 2px;
-    flex-shrink: 0;
-  }
-  .feat-sub {
-    font-size: 13px;
-    color: var(--gray);
-    margin-top: 3px;
-    line-height: 1.3;
-  }
-  .feat-meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px 16px;
-    font-size: 12px;
-    color: var(--gray);
-    margin: 10px 0 14px;
-    align-items: center;
-  }
-  .feat-meta span {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    white-space: nowrap;
-  }
-  .feat-meta svg {
-    width: 12px; height: 12px;
-    opacity: 0.7;
-  }
-  .stars {
-    color: #FF9500;
-    letter-spacing: -0.8px;
-    font-size: 12px;
-  }
-
-  .shots {
-    display: flex;
-    gap: 10px;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    padding-bottom: 2px;
-  }
-  .shots::-webkit-scrollbar { display: none; }
-  .shot {
-    width: 128px;
-    height: 228px;
-    border-radius: 14px;
-    flex-shrink: 0;
-    color: #fff;
-    padding: 14px 12px;
-    font-size: 13px;
-    font-weight: 600;
-    line-height: 1.3;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    overflow: hidden;
-  }
-  .shot.dark { background: #1a3a5c; }
-  .shot.mid  { background: #007AFF; }
-  .shot.light{ background: #2B7DE9; }
-  .shot .placeholder {
-    flex: 1;
-    margin-top: 12px;
-    background: rgba(255,255,255,0.12);
-    border-radius: 10px;
-  }
-
-  /* Result rows */
-  .result-row {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 14px 20px;
-    cursor: pointer;
-  }
-  .result-row:active { background: #F8F8F8; }
-  .result-row + .result-row {
-    border-top: 0.5px solid var(--sep);
-  }
-  .result-icon {
-    width: 62px; height: 62px;
-    border-radius: 14px;
-    overflow: hidden;
-    flex-shrink: 0;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-  }
-  .result-icon img { width: 100%; height: 100%; object-fit: cover; }
-  .result-info { flex: 1; min-width: 0; }
-  .result-name {
-    font-size: 17px;
-    font-weight: 500;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .result-sub {
-    font-size: 13px;
-    color: var(--gray);
-    margin-top: 2px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .result-meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px 12px;
-    font-size: 12px;
-    color: var(--gray);
-    margin-top: 5px;
-    align-items: center;
-  }
-  .result-meta span {
-    display: inline-flex;
-    align-items: center;
-    gap: 3px;
-    white-space: nowrap;
-  }
-  .result-meta svg {
-    width: 11px; height: 11px;
-    opacity: 0.75;
-  }
-
-  /* ===== DETAIL ===== */
-  .detail-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px 16px;
-    position: sticky;
-    top: 0;
-    background: rgba(255,255,255,0.94);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    z-index: 40;
-  }
-  .nav-circle {
-    width: 34px; height: 34px;
-    border-radius: 50%;
-    background: #EFEFF0;
-    border: none;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer;
-  }
-  .nav-circle svg { width: 17px; height: 17px; }
-  .detail-head {
-    display: flex;
-    gap: 16px;
-    padding: 8px 20px 20px;
-    align-items: flex-start;
-  }
-  .big-icon {
-    width: 118px; height: 118px;
-    border-radius: 26px;
-    overflow: hidden;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
-    flex-shrink: 0;
-  }
-  .big-icon img { width: 100%; height: 100%; object-fit: cover; }
-  .detail-title {
-    font-size: 22px;
-    font-weight: 700;
-    letter-spacing: -0.3px;
-  }
-  .detail-dev {
-    font-size: 15px;
-    color: var(--gray);
-    margin-top: 2px;
-  }
-  .open-big {
-    margin-top: 14px;
-    width: 120px;
-    height: 34px;
-    border-radius: 17px;
-    background: var(--blue);
-    color: #fff;
-    font-size: 16px;
-    font-weight: 600;
-    border: none;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-  }
-  .stats {
-    display: flex;
-    justify-content: space-around;
-    padding: 16px 8px;
-    text-align: center;
-    border-top: 0.5px solid var(--sep);
-    border-bottom: 0.5px solid var(--sep);
-  }
-  .stat-label {
-    font-size: 10px;
-    color: var(--gray);
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
-    margin-bottom: 4px;
-  }
-  .stat-val { font-size: 20px; font-weight: 600; }
-  .stat-sub { font-size: 12px; color: var(--gray); }
-  .sec { padding: 20px 20px 8px; }
-  .sec h2 {
-    font-size: 22px;
-    font-weight: 700;
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
-  .sec h2 .chev { color: var(--gray); font-weight: 400; }
-  .ver-row {
-    display: flex;
-    justify-content: space-between;
-    font-size: 15px;
-    color: var(--gray);
-    margin-bottom: 10px;
-  }
-  .whats { font-size: 15px; line-height: 1.45; }
-  .preview-row {
-    display: flex;
-    gap: 12px;
-    overflow-x: auto;
-    padding: 0 20px 28px;
-    -webkit-overflow-scrolling: touch;
-  }
-  .preview-row::-webkit-scrollbar { display: none; }
-  .prev {
-    width: 210px;
-    height: 380px;
-    border-radius: 18px;
-    flex-shrink: 0;
-    overflow: hidden;
-    position: relative;
-    color: #fff;
-  }
-  .prev.navy { background: linear-gradient(160deg,#0A2A5C,#0D3B7A); }
-  .prev.red  { background: linear-gradient(160deg,#C41E3A,#E30613); }
-  .prev .lbl {
-    position: absolute;
-    top: 18px; left: 14px; right: 14px;
-    font-size: 19px;
-    font-weight: 700;
-    line-height: 1.25;
-  }
-  .prev .phone {
-    position: absolute;
-    bottom: 16px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 150px;
-    height: 270px;
-    background: #111;
-    border-radius: 20px;
-    border: 3px solid #333;
-    overflow: hidden;
-  }
-
-  /* ===== TAB BAR – real iOS style ===== */
-  .tabbar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: calc(83px + var(--safe-bottom));
-    background: rgba(255,255,255,0.94);
-    backdrop-filter: blur(25px);
-    -webkit-backdrop-filter: blur(25px);
-    border-top: 0.5px solid rgba(60,60,67,0.29);
-    display: flex;
-    justify-content: space-around;
-    align-items: flex-start;
-    padding-top: 8px;
-    padding-bottom: calc(28px + var(--safe-bottom));
-    z-index: 100;
-  }
-  .tab {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2px;
-    width: 64px;
-    color: #8E8E93;
-    font-size: 10px;
-    font-weight: 500;
-    letter-spacing: -0.1px;
-  }
-  .tab.active { color: var(--blue); }
-  .tab svg {
-    width: 25px;
-    height: 25px;
-  }
+/* Tab bar – true iOS */
+.tabbar{position:fixed;bottom:0;left:0;right:0;height:calc(83px + var(--safe));background:rgba(255,255,255,.92);backdrop-filter:blur(25px);-webkit-backdrop-filter:blur(25px);border-top:.5px solid rgba(60,60,67,.29);display:flex;justify-content:space-around;align-items:flex-start;padding-top:8px;padding-bottom:calc(28px + var(--safe));z-index:100}
+.tab{display:flex;flex-direction:column;align-items:center;gap:2px;width:64px;color:#8E8E93;font-size:10px;font-weight:500}
+.tab.active{color:var(--blue)}
+.tab svg{width:25px;height:25px}
 </style>
 </head>
 <body>
 <div class="wrap">
 
-<!-- HOME -->
 <div id="view-home" class="view active">
-  <div class="top">
-    <h1>Search</h1>
-    <div class="avatar">AS</div>
-  </div>
+  <div class="top"><h1>Search</h1><div class="avatar">AS</div></div>
   <div class="search-row">
     <div class="search-field" onclick="startSearch()">
       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#8E8E93" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
       <input type="text" placeholder="Games, Apps, Stories and More" readonly>
     </div>
   </div>
-
   <div class="section-title">Suggested <span class="chev">›</span></div>
   <div class="suggested-list">
     <div class="app-row">
       <div class="icon"><img src="temu.png" alt="Temu"></div>
-      <div class="info">
-        <div class="name">Temu: Shop Like a Billionaire <span class="ad">Ad</span></div>
-        <div class="sub">Shop incredible deals on Temu!</div>
-      </div>
+      <div class="info"><div class="name">Temu: Shop Like a Billionaire <span class="ad">Ad</span></div><div class="sub">Shop incredible deals on Temu!</div></div>
       <div class="action"><button class="btn btn-open">Open</button></div>
     </div>
     <div class="app-row">
       <div class="icon"><img src="brawl-stars.png" alt="Brawl Stars"></div>
-      <div class="info">
-        <div class="name">Brawl Stars</div>
-        <div class="sub">Epic PvP Battle Royale MOBA</div>
-      </div>
+      <div class="info"><div class="name">Brawl Stars</div><div class="sub">Epic PvP Battle Royale MOBA</div></div>
       <div class="action"><button class="btn btn-get">Get</button><span class="iap">In-App Purchases</span></div>
     </div>
     <div class="app-row">
-      <div class="icon" style="background:#fff;display:flex;align-items:center;justify-content:center;">
-        <div style="width:36px;height:36px;border-radius:50%;background:conic-gradient(#4285F4 0 90deg,#EA4335 90deg 180deg,#FBBC05 180deg 270deg,#34A853 270deg 360deg);position:relative;">
-          <div style="position:absolute;inset:7px;background:#fff;border-radius:50%;"></div>
-        </div>
+      <div class="icon" style="background:#fff;display:flex;align-items:center;justify-content:center">
+        <div style="width:36px;height:36px;border-radius:50%;background:conic-gradient(#4285F4 0 90deg,#EA4335 90deg 180deg,#FBBC05 180deg 270deg,#34A853 270deg 360deg);position:relative"><div style="position:absolute;inset:7px;background:#fff;border-radius:50%"></div></div>
       </div>
-      <div class="info">
-        <div class="name">Google Photos: Backup & Edit</div>
-        <div class="sub">Smart Photo and Video Storage</div>
-      </div>
+      <div class="info"><div class="name">Google Photos: Backup & Edit</div><div class="sub">Smart Photo and Video Storage</div></div>
       <div class="action"><button class="btn btn-get">Get</button><span class="iap">In-App Purchases</span></div>
     </div>
   </div>
-
   <div class="section-title">Browse <span class="chev">›</span></div>
   <div class="browse-grid">
     <div class="card blue">Top Downloaded Apps<div class="deco">🏆</div></div>
@@ -619,241 +162,112 @@
   </div>
 </div>
 
-<!-- SUGGESTIONS -->
 <div id="view-suggestions" class="view">
   <div class="search-row">
     <div class="search-field">
       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#8E8E93" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
       <input type="text" id="sugg-input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
-      <button class="clear-x" id="clear-btn" style="display:none" onclick="clearInput()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
-      </button>
+      <button class="clear-x" id="clear-btn" style="display:none" onclick="clearInput()"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
     </div>
     <button class="cancel-x" onclick="goHome()">Cancel</button>
   </div>
   <ul class="sugg-list" id="sugg-list"></ul>
 </div>
 
-<!-- RESULTS -->
 <div id="view-results" class="view">
   <div class="search-row">
     <div class="search-field">
       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#8E8E93" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
       <input type="text" id="res-input" readonly>
-      <button class="clear-x" onclick="clearInput()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
-      </button>
+      <button class="clear-x" onclick="clearInput()"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
     </div>
     <button class="cancel-x" onclick="goHome()">Cancel</button>
   </div>
   <div id="results-body"></div>
 </div>
 
-<!-- DETAIL -->
 <div id="view-detail" class="view">
   <div class="detail-nav">
-    <button class="nav-circle" onclick="backFromDetail()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.3" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
-    </button>
-    <button class="nav-circle">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.8"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
-    </button>
+    <button class="nav-circle" onclick="backFromDetail()"><svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.3" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+    <button class="nav-circle"><svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.8"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></button>
   </div>
-
   <div class="detail-head">
-    <div class="big-icon">
-      <img src="icon1.png" alt="Service NSW">
-    </div>
+    <div class="big-icon"><img src="icon1.png" alt="Service NSW"></div>
     <div>
       <div class="detail-title">Service NSW</div>
       <div class="detail-dev">Service NSW</div>
       <a href="servicensw://" class="open-big">Open</a>
     </div>
   </div>
-
   <div class="stats">
     <div><div class="stat-label">222K Ratings</div><div class="stat-val">4.6</div><div class="stat-sub">★★★★☆</div></div>
     <div><div class="stat-label">Age Rating</div><div class="stat-val">4+</div><div class="stat-sub">Years</div></div>
     <div><div class="stat-label">Chart</div><div class="stat-val">No.19</div><div class="stat-sub">Utilities</div></div>
     <div><div class="stat-label">Developer</div><div class="stat-val" style="font-size:17px">👤</div><div class="stat-sub">Service NSW</div></div>
   </div>
-
   <div class="sec">
     <h2>What’s New <span class="chev">›</span></h2>
     <div class="ver-row"><span>Version 9.34.0</span><span>6d ago</span></div>
     <p class="whats">Thanks for using the Service NSW mobile app! We use your feedback to make regular improvements.</p>
   </div>
-
   <div class="sec" style="padding-bottom:4px"><h2>Preview</h2></div>
   <div class="preview-row">
-    <div class="prev navy">
-      <div class="lbl">Access NSW<br>Government services</div>
-      <div class="phone" style="background:#0A2A5C;padding:10px;color:#fff;font-size:10px">
-        <div style="font-weight:700;margin-bottom:8px">Favourites</div>
-        <div style="background:#fff;color:#000;border-radius:8px;padding:7px;margin-bottom:5px">
-          <b>Driver Licence</b><br><span style="color:#666;font-size:9px">Expiry: 10 Dec 2025</span>
-        </div>
-        <div style="background:rgba(255,255,255,.15);border-radius:8px;padding:7px">Work</div>
-      </div>
-    </div>
-    <div class="prev red">
-      <div class="lbl">Add and use<br>digital credentials</div>
-      <div class="phone" style="background:#1a1a1a;padding:10px;color:#fff;font-size:10px">
-        <div style="margin-bottom:8px">Wallet</div>
-        <div style="display:flex;gap:5px;margin-bottom:8px">
-          <span style="background:#007AFF;padding:3px 8px;border-radius:10px;font-size:9px">All (4)</span>
-          <span style="background:#333;padding:3px 8px;border-radius:10px;font-size:9px">Favourites (2)</span>
-        </div>
-        <div style="background:#fff;color:#000;border-radius:9px;padding:9px"><b>Driver Licence</b></div>
-      </div>
-    </div>
-    <div class="prev red">
-      <div class="lbl">Apply for and use<br>vouchers</div>
-      <div class="phone" style="background:#1a1a1a;padding:10px;color:#fff;font-size:10px">
-        <div style="margin-bottom:6px">Vouchers</div>
-        <div style="background:#fff;color:#000;border-radius:9px;padding:8px">
-          <b>Active and Creative Kids</b><br>
-          <span style="color:#0a0;font-size:9px">Available for one use</span><br>
-          <span style="font-size:18px;font-weight:700">$50</span>
-        </div>
-      </div>
-    </div>
+    <div class="prev"><img src="sns-shot1.png" alt=""></div>
+    <div class="prev"><img src="sns-shot2.png" alt=""></div>
+    <div class="prev"><img src="sns-shot3.png" alt=""></div>
   </div>
 </div>
 
 </div>
 
-<!-- TAB BAR -->
 <div class="tabbar">
-  <div class="tab">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
-    <span>Today</span>
-  </div>
-  <div class="tab">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4.5 16.5c.8-2.5 3-4 5.5-4s4.7 1.5 5.5 4"/><circle cx="9" cy="8" r="2.5"/><path d="M14.5 7.5c1.5-1 3.5-1 5 0"/><path d="M19 12c1.2.8 2 2.2 2 3.8"/></svg>
-    <span>Games</span>
-  </div>
-  <div class="tab">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 12h8M12 8v8"/></svg>
-    <span>Apps</span>
-  </div>
-  <div class="tab">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
-    <span>Arcade</span>
-  </div>
-  <div class="tab active">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
-    <span>Search</span>
-  </div>
+  <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg><span>Today</span></div>
+  <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4.5 16.5c.8-2.5 3-4 5.5-4s4.7 1.5 5.5 4"/><circle cx="9" cy="8" r="2.5"/><path d="M14.5 7.5c1.5-1 3.5-1 5 0"/><path d="M19 12c1.2.8 2 2.2 2 3.8"/></svg><span>Games</span></div>
+  <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 12h8M12 8v8"/></svg><span>Apps</span></div>
+  <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg><span>Arcade</span></div>
+  <div class="tab active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>Search</span></div>
 </div>
 
 <script>
-const MAG = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>`;
-const STORIES = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><path d="M8 7h8M8 11h8"/></svg>`;
-const PERSON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="12" cy="10" r="3"/><path d="M6 18c1.5-2.5 4-4 6-4s4.5 1.5 6 4"/></svg>`;
-const WATCH = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M9 2v2M15 2v2M9 20v2M15 20v2"/><circle cx="12" cy="12" r="3"/></svg>`;
+const MAG=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>`;
+const STORIES=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><path d="M8 7h8M8 11h8"/></svg>`;
+const PERSON=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="12" cy="10" r="3"/><path d="M6 18c1.5-2.5 4-4 6-4s4.5 1.5 6 4"/></svg>`;
+const WATCH=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M9 2v2M15 2v2M9 20v2M15 20v2"/><circle cx="12" cy="12" r="3"/></svg>`;
 
-const SUGGESTIONS = [
-  {t:"service nsw", ico: MAG},
-  {t:"service wa", ico: MAG},
-  {t:"service victoria", ico: MAG},
-  {t:"servicem8", ico: MAG},
-  {t:"services australia", ico: MAG},
-  {t:"service victoria mobile app", ico: MAG},
-  {t:"service tasmania", ico: MAG},
-  {t:"service sa", ico: MAG},
-  {t:"an evil serpent rears its head in Stories", ico: STORIES},
-  {t:"services australia in Developers", ico: PERSON},
-  {t:"servicem8 - job management app in Watch Apps", ico: WATCH},
-  {t:"snapchat", ico: MAG},
-  {t:"spotify", ico: MAG},
-  {t:"sportsbet", ico: MAG},
-  {t:"signal", ico: MAG},
-  {t:"shein", ico: MAG},
-  {t:"strava", ico: MAG},
-  {t:"seek", ico: MAG},
-  {t:"mygov", ico: MAG},
-  {t:"serializd", ico: MAG}
+const SUGGESTIONS=[
+  {t:"service nsw",ico:MAG},{t:"service wa",ico:MAG},{t:"service victoria",ico:MAG},
+  {t:"servicem8",ico:MAG},{t:"services australia",ico:MAG},{t:"service victoria mobile app",ico:MAG},
+  {t:"service tasmania",ico:MAG},{t:"service sa",ico:MAG},
+  {t:"an evil serpent rears its head in Stories",ico:STORIES},
+  {t:"services australia in Developers",ico:PERSON},
+  {t:"servicem8 - job management app in Watch Apps",ico:WATCH},
+  {t:"snapchat",ico:MAG},{t:"spotify",ico:MAG},{t:"sportsbet",ico:MAG},
+  {t:"signal",ico:MAG},{t:"shein",ico:MAG},{t:"strava",ico:MAG},{t:"seek",ico:MAG},
+  {t:"mygov",ico:MAG},{t:"serializd",ico:MAG}
 ];
 
-let lastView = "home";
-
-function show(id) {
-  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
+let lastView="home";
+function show(id){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.getElementById(id).classList.add('active')}
+function goHome(){document.getElementById('sugg-input').value='';document.getElementById('res-input').value='';document.getElementById('clear-btn').style.display='none';show('view-home')}
+function startSearch(){show('view-suggestions');const i=document.getElementById('sugg-input');i.value='';i.focus();renderSuggestions('')}
+function clearInput(){const i=document.getElementById('sugg-input');i.value='';document.getElementById('clear-btn').style.display='none';renderSuggestions('');i.focus();show('view-suggestions')}
+function renderSuggestions(q){
+  const list=document.getElementById('sugg-list'),clear=document.getElementById('clear-btn');
+  clear.style.display=q?'flex':'none';
+  if(!q.trim()){list.innerHTML='';return}
+  const lower=q.toLowerCase().trim();
+  let matches=SUGGESTIONS.filter(s=>s.t.toLowerCase().includes(lower));
+  matches.sort((a,b)=>{const as=a.t.toLowerCase().startsWith(lower)?0:1,bs=b.t.toLowerCase().startsWith(lower)?0:1;return as-bs||a.t.length-b.t.length});
+  if(/^ser/.test(lower)){matches=matches.filter(m=>m.t!=='service nsw');matches.unshift({t:'service nsw',ico:MAG})}
+  list.innerHTML=matches.slice(0,12).map(m=>`<li class="sugg-item" onclick="doSearch('${m.t.replace(/'/g,"\\'")}')"><span class="sugg-ico">${m.ico}</span>${m.t}</li>`).join('')
 }
+document.getElementById('sugg-input').addEventListener('input',e=>renderSuggestions(e.target.value));
+document.getElementById('sugg-input').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();doSearch(e.target.value.trim()||'service nsw')}});
 
-function goHome() {
-  document.getElementById('sugg-input').value = '';
-  document.getElementById('res-input').value = '';
-  document.getElementById('clear-btn').style.display = 'none';
-  show('view-home');
-}
-
-function startSearch() {
-  show('view-suggestions');
-  const inp = document.getElementById('sugg-input');
-  inp.value = '';
-  inp.focus();
-  renderSuggestions('');
-}
-
-function clearInput() {
-  const inp = document.getElementById('sugg-input');
-  inp.value = '';
-  document.getElementById('clear-btn').style.display = 'none';
-  renderSuggestions('');
-  inp.focus();
-  show('view-suggestions');
-}
-
-function renderSuggestions(q) {
-  const list = document.getElementById('sugg-list');
-  const clear = document.getElementById('clear-btn');
-  clear.style.display = q ? 'flex' : 'none';
-
-  if (!q.trim()) {
-    list.innerHTML = '';
-    return;
-  }
-
-  const lower = q.toLowerCase().trim();
-  let matches = SUGGESTIONS.filter(s => s.t.toLowerCase().includes(lower));
-
-  matches.sort((a, b) => {
-    const aStarts = a.t.toLowerCase().startsWith(lower) ? 0 : 1;
-    const bStarts = b.t.toLowerCase().startsWith(lower) ? 0 : 1;
-    if (aStarts !== bStarts) return aStarts - bStarts;
-    return a.t.length - b.t.length;
-  });
-
-  if (/^ser/.test(lower)) {
-    matches = matches.filter(m => m.t !== 'service nsw');
-    matches.unshift({t:'service nsw', ico: MAG});
-  }
-
-  list.innerHTML = matches.slice(0, 12).map(m => `
-    <li class="sugg-item" onclick="doSearch('${m.t.replace(/'/g,"\\'")}')">
-      <span class="sugg-ico">${m.ico}</span>
-      ${m.t}
-    </li>
-  `).join('');
-}
-
-document.getElementById('sugg-input').addEventListener('input', e => renderSuggestions(e.target.value));
-document.getElementById('sugg-input').addEventListener('keydown', e => {
-  if (e.key === 'Enter') {
-    e.preventDefault();
-    doSearch(e.target.value.trim() || 'service nsw');
-  }
-});
-
-function doSearch(query) {
-  document.getElementById('res-input').value = query;
-  document.getElementById('sugg-input').value = query;
-  const body = document.getElementById('results-body');
-
-  body.innerHTML = `
+function doSearch(query){
+  document.getElementById('res-input').value=query;
+  document.getElementById('sugg-input').value=query;
+  document.getElementById('results-body').innerHTML=`
     <div class="featured">
       <div class="feat-top">
         <div class="feat-icon"><img src="tradify.png" alt="Tradify"></div>
@@ -864,86 +278,46 @@ function doSearch(query) {
         <button class="btn btn-get">Get</button>
       </div>
       <div class="feat-meta">
-        <span class="stars">★★★★★</span>
-        <span>4K</span>
-        <span>
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
-          Tradify Limited
-        </span>
-        <span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-          Business
-        </span>
+        <span class="stars">★★★★★</span><span>4K</span>
+        <span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>Tradify Limited</span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>Business</span>
       </div>
       <div class="shots">
-        <div class="shot dark">
-          TRADIFY<br>The Best Tool<br>for the Job
-          <div class="placeholder"></div>
-        </div>
-        <div class="shot mid">
-          Everything you<br>need to run<br>your business.<br><span style="font-weight:400;opacity:0.9">All in one place.</span>
-          <div class="placeholder"></div>
-        </div>
-        <div class="shot light">
-          Purpose Built<br>for the Trades
-          <div style="margin-top:14px;font-size:12px;font-weight:500;line-height:1.6;opacity:0.95">
-            📄 Invoices & Payments<br>
-            📞 Enquiries<br>
-            📅 Manage & Schedule<br>
-            📝 Quotes & Estimates
-          </div>
-        </div>
+        <div class="shot"><img src="tradify-shot1.png" alt=""></div>
+        <div class="shot"><img src="tradify-shot2.png" alt=""></div>
+        <div class="shot"><img src="tradify-shot3.png" alt=""></div>
       </div>
     </div>
-
     <div class="result-row" onclick="openDetail()">
       <div class="result-icon"><img src="icon1.png" alt="Service NSW"></div>
       <div class="result-info">
         <div class="result-name">Service NSW</div>
         <div class="result-sub">Digital licences and more</div>
         <div class="result-meta">
-          <span class="stars">★★★★★</span>
-          <span>222K</span>
-          <span>
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
-            Service NSW
-          </span>
+          <span class="stars">★★★★★</span><span>222K</span>
+          <span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>Service NSW</span>
           <span>#19 Utilities</span>
         </div>
       </div>
       <a href="servicensw://" class="btn btn-open" onclick="event.stopPropagation()">Open</a>
     </div>
-
     <div class="result-row">
       <div class="result-icon"><img src="mygov.png" alt="myGov"></div>
       <div class="result-info">
         <div class="result-name">myGov</div>
         <div class="result-sub">Australian Government</div>
         <div class="result-meta">
-          <span class="stars">★★★★☆</span>
-          <span>5.4K</span>
-          <span>
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
-            Services Australia
-          </span>
+          <span class="stars">★★★★☆</span><span>5.4K</span>
+          <span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>Services Australia</span>
           <span>#1 Utilities</span>
         </div>
       </div>
       <button class="btn btn-open">Open</button>
-    </div>
-  `;
+    </div>`;
   show('view-results');
 }
-
-function openDetail() {
-  lastView = 'results';
-  show('view-detail');
-  window.scrollTo(0,0);
-}
-
-function backFromDetail() {
-  show(lastView === 'results' ? 'view-results' : 'view-suggestions');
-}
+function openDetail(){lastView='results';show('view-detail');window.scrollTo(0,0)}
+function backFromDetail(){show(lastView==='results'?'view-results':'view-suggestions')}
 </script>
 </body>
 </html>
