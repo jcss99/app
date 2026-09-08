@@ -2,32 +2,32 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>App Store</title>
 <link rel="icon" href="appstore.png">
 <link rel="apple-touch-icon" href="appstore.png">
 <style>
 :root{--blue:#007aff;--text:#000;--gray:#8e8e93;--line:rgba(60,60,67,.16);--bar:rgba(249,249,249,.92);--safe:env(safe-area-inset-bottom,0px);--nav:84px}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html,body{min-height:100%;background:#fff;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Helvetica Neue",Arial,sans-serif;-webkit-font-smoothing:antialiased}
-body{overflow-x:hidden}.app{width:min(100%,430px);min-height:100dvh;margin:auto;background:#fff;position:relative}.view{display:none;min-height:100dvh;padding-bottom:calc(var(--nav) + var(--safe) + 12px)}.view.active{display:block}
+html,body{min-height:100%;background:#fff;color:var(--text);touch-action:pan-y;overscroll-behavior-x:none;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Helvetica Neue",Arial,sans-serif;-webkit-font-smoothing:antialiased}
+body{overflow-x:hidden}.app{width:min(100%,430px);min-height:100dvh;margin:auto;background:#fff;position:relative}.view{display:none;height:100dvh;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding-bottom:calc(var(--nav) + var(--safe) + 18px)}.view.active{display:block}
 button,input{font:inherit}.top{height:58px;padding:10px 20px 4px;display:flex;align-items:center;justify-content:space-between}.top h1{font-size:34px;line-height:1;font-weight:700;letter-spacing:-.7px}.avatar{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:#b6dce9;color:#fff;font-size:12px;font-weight:600}
 .search-row{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:10px;padding:8px 16px 10px;background:rgba(255,255,255,.94);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}.search-field{height:36px;flex:1;display:flex;align-items:center;gap:7px;padding:0 9px 0 10px;background:#efeff0;border-radius:10px}.search-field input{width:100%;border:0;outline:0;background:transparent;font-size:17px;color:#000}.search-field input::placeholder{color:#8e8e93}.cancel{border:0;background:none;color:var(--blue);font-size:17px;cursor:pointer}.clear{display:none;width:18px;height:18px;border:0;border-radius:50%;background:#8e8e93;color:#fff;place-items:center;cursor:pointer}.clear svg{width:10px;height:10px}
-.section-title{padding:18px 20px 9px;font-size:22px;font-weight:700;letter-spacing:-.3px}.suggested{padding:0 16px}.row{display:flex;align-items:center;gap:13px;padding:12px 0;min-height:86px;border-bottom:.5px solid var(--line);cursor:pointer}.row:last-child{border-bottom:0}.icon{width:62px;height:62px;border-radius:14px;overflow:hidden;flex:none;background:#f2f2f7;box-shadow:0 1px 3px rgba(0,0,0,.13)}.icon img{width:100%;height:100%;display:block;object-fit:cover}.info{min-width:0;flex:1}.name{font-size:16px;font-weight:500;line-height:1.18;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.sub{margin-top:3px;font-size:13px;color:var(--gray);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.meta{display:flex;gap:7px;align-items:center;margin-top:5px;color:var(--gray);font-size:11px;white-space:nowrap;overflow:hidden}.stars{letter-spacing:-1px;color:#8e8e93}.action{flex:none;display:flex;flex-direction:column;align-items:center;gap:3px}.btn{border:0;border-radius:16px;height:31px;min-width:69px;padding:0 14px;background:#e9e9ed;color:var(--blue);font-size:15px;font-weight:600;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}.btn.open{background:#e8f1ff}.tiny{font-size:10px;color:var(--gray)}
+.section-title{padding:20px 20px 9px;font-size:22px;font-weight:700;letter-spacing:-.3px}.suggested{padding:0 16px}.row{display:flex;align-items:center;gap:13px;padding:10px 0;min-height:80px;border-bottom:.5px solid var(--line);cursor:pointer}.row:last-child{border-bottom:0}.icon{width:62px;height:62px;border-radius:14px;overflow:hidden;flex:none;background:#f2f2f7;box-shadow:0 1px 3px rgba(0,0,0,.13)}.icon img{width:100%;height:100%;display:block;object-fit:cover}.info{min-width:0;flex:1}.name{font-size:16px;font-weight:500;line-height:1.18;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.sub{margin-top:3px;font-size:13px;color:var(--gray);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.meta{display:flex;gap:7px;align-items:center;margin-top:5px;color:var(--gray);font-size:11px;white-space:nowrap;overflow:hidden}.stars{letter-spacing:-1px;color:#8e8e93}.action{flex:none;display:flex;flex-direction:column;align-items:center;gap:3px}.btn{border:0;border-radius:16px;height:31px;min-width:69px;padding:0 14px;background:#e9e9ed;color:var(--blue);font-size:15px;font-weight:600;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}.btn.open{background:#e8f1ff}.tiny{font-size:10px;color:var(--gray)}
 .browse{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:4px 16px 24px}.card{height:96px;border-radius:14px;padding:14px;color:#fff;font-size:16px;font-weight:700;line-height:1.18;cursor:pointer;position:relative;overflow:hidden}.card:active{transform:scale(.985)}.c1{background:#5d9be3}.c2{background:#eb975f}.c3{background:#61bd7d}.c4{background:#9177df}.c5{background:#62b6dc}.c6{background:#e4bd54}.deco{position:absolute;right:10px;bottom:7px;font-size:28px}
 .suggestions{list-style:none}.suggestion{padding:14px 20px;border-bottom:.5px solid var(--line);display:flex;align-items:center;gap:13px;font-size:17px;cursor:pointer}.suggestion:active{background:#f2f2f7}.sicon{width:22px;height:22px;display:grid;place-items:center;color:#8e8e93;flex:none}.sicon svg{width:20px;height:20px}
 .results-head{padding:10px 20px 6px;font-size:13px;color:var(--gray)}.featured{margin:6px 16px 18px;padding:15px;border-radius:17px;background:#f2f8ff}.feat-head{display:flex;gap:13px;align-items:flex-start}.feat-icon{width:62px;height:62px;border-radius:14px;overflow:hidden;flex:none}.feat-icon img{width:100%;height:100%;object-fit:cover}.feat-info{min-width:0;flex:1}.feat-name{font-size:17px;font-weight:600;line-height:1.2}.feat-sub{font-size:13px;color:var(--gray);margin-top:3px}.screens{display:flex;gap:10px;overflow-x:auto;margin-top:13px;scrollbar-width:none}.screens::-webkit-scrollbar{display:none}.screen{width:142px;aspect-ratio:9/19.5;flex:none;border-radius:14px;overflow:hidden;background:#fff}.screen img{width:100%;height:100%;object-fit:contain;display:block}
 /* Natural iOS/App Store-style bottom tab bar. It stays inside the phone width. */
-.tabbar{position:fixed;left:50%;bottom:0;transform:translateX(-50%);width:min(100%,430px);height:calc(var(--nav) + var(--safe));padding:6px 5px var(--safe);display:flex;align-items:flex-start;background:var(--bar);border-top:.5px solid rgba(60,60,67,.28);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);z-index:100}.tab{appearance:none;border:0;background:none;color:#8e8e93;flex:1;height:76px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:1px;font-size:10px;line-height:12px;cursor:pointer}.tab.active{color:var(--blue)}.tab svg{width:24px;height:24px;margin-top:2px;margin-bottom:1px}.tab:active{opacity:.55}
+.tabbar{position:fixed;left:50%;bottom:0;transform:translate3d(-50%,0,0);width:min(100vw,430px);height:calc(var(--nav) + var(--safe));padding:6px 5px var(--safe);display:flex;align-items:flex-start;background:var(--bar);border-top:.5px solid rgba(60,60,67,.28);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);z-index:100}.tab{appearance:none;border:0;background:none;color:#8e8e93;flex:1;height:76px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:1px;font-size:10px;line-height:12px;cursor:pointer}.tab.active{color:var(--blue)}.tab svg{width:24px;height:24px;margin-top:2px;margin-bottom:1px}.tab:active{opacity:.55}
 .detail-nav{height:51px;display:flex;align-items:center;justify-content:space-between;padding:7px 16px;position:sticky;top:0;z-index:30;background:rgba(255,255,255,.94);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}.navbtn{width:34px;height:34px;border:0;border-radius:50%;background:#efeff0;display:grid;place-items:center;cursor:pointer}.navbtn svg{width:18px;height:18px}.detail-top{display:flex;gap:15px;padding:12px 20px 18px;align-items:flex-start}.big-icon{width:104px;height:104px;border-radius:23px;overflow:hidden;flex:none;box-shadow:0 3px 12px rgba(0,0,0,.12)}.big-icon img{width:100%;height:100%;object-fit:cover}.detail-main{min-width:0;flex:1}.detail-name{font-size:22px;line-height:1.12;font-weight:700;letter-spacing:-.4px}.detail-dev{font-size:15px;color:var(--gray);margin-top:4px}.detail-open{margin-top:13px}.detail-open .btn{background:var(--blue);color:#fff;min-width:86px;height:34px}.share-title{font-size:13px;color:var(--gray);margin-top:6px}
 .stats{display:grid;grid-template-columns:repeat(4,1fr);padding:14px 4px;border-top:.5px solid var(--line);border-bottom:.5px solid var(--line);text-align:center}.stat-label{font-size:9px;color:var(--gray);text-transform:uppercase;letter-spacing:.15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.stat-value{font-size:18px;font-weight:600;margin-top:3px}.stat-sub{font-size:11px;color:var(--gray);margin-top:1px}.detail-section{padding:20px 20px 8px}.detail-section h2{font-size:22px;line-height:1.1;margin-bottom:10px}.version{display:flex;justify-content:space-between;color:var(--gray);font-size:14px;margin-bottom:9px}.description{font-size:15px;line-height:1.45}.preview-title{padding:18px 20px 10px;font-size:22px;font-weight:700}.preview{display:flex;gap:12px;overflow-x:auto;padding:0 20px 20px;scrollbar-width:none}.preview::-webkit-scrollbar{display:none}.preview-card{width:210px;aspect-ratio:9/19.5;flex:none;border-radius:17px;overflow:hidden;background:#fff}.preview-card img{width:100%;height:100%;object-fit:contain;display:block}.link-row{padding:13px 20px;border-top:.5px solid var(--line);font-size:15px;color:var(--blue);cursor:pointer}.loading{padding:22px;text-align:center;color:var(--gray);font-size:13px}.empty{padding:35px 20px;text-align:center;color:var(--gray)}
-@media(min-width:431px){body{background:#f2f2f7}.app{box-shadow:0 0 0 .5px rgba(0,0,0,.08)}}
+@media(min-width:431px){body{background:#f2f2f7}.app{height:100dvh;min-height:0;overflow:hidden;box-shadow:0 0 0 .5px rgba(0,0,0,.08)}}
 </style>
 </head>
 <body>
 <div class="app">
   <section id="home" class="view active">
-    <div class="top"><h1>Search</h1><div class="avatar">AS</div></div>
+    <div class="top"><h1>Search</h1><button class="avatar" aria-label="Account" onclick="showProfile()">A</button></div>
     <div class="search-row"><div class="search-field" onclick="startSearch()"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#8e8e93" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input readonly placeholder="Games, Apps, Stories and More"></div></div>
     <div class="section-title">Suggested</div>
     <div id="suggested" class="suggested"></div>
@@ -49,7 +49,7 @@ button,input{font:inherit}.top{height:58px;padding:10px 20px 4px;display:flex;al
 
   <section id="results" class="view"><div class="search-row"><div class="search-field"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#8e8e93" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="resultsInput" readonly><button class="clear" style="display:grid" onclick="startSearch(document.getElementById('resultsInput').value)"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div><button class="cancel" onclick="switchTab('search')">Cancel</button></div><div id="resultsBody"></div></section>
 
-  <section id="category" class="view"><div class="top"><h1 id="categoryTitle">Apps</h1><div class="avatar">AS</div></div><div id="categoryBody"></div></section>
+  <section id="category" class="view"><div class="top"><h1 id="categoryTitle">Apps</h1><button class="avatar" aria-label="Account" onclick="showProfile()">A</button></div><div id="categoryBody"></div></section>
 
   <section id="detail" class="view"><div class="detail-nav"><button class="navbtn" onclick="back()"><svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.2" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg></button><button class="navbtn" onclick="shareCurrent()"><svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><path d="M16 6l-4-4-4 4M12 2v13"/></svg></button></div><div id="detailBody"></div></section>
 </div>
@@ -61,6 +61,15 @@ button,input{font:inherit}.top{height:58px;padding:10px 20px 4px;display:flex;al
   <button class="tab" data-tab="arcade" onclick="switchTab('arcade')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10l8-4 8 4-8 4-8-4z"/><path d="M4 14l8 4 8-4"/><circle cx="12" cy="9" r="1.2"/></svg><span>Arcade</span></button>
   <button class="tab active" data-tab="search" onclick="switchTab('search')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.2"/><path d="M15.2 15.2L20 20"/></svg><span>Search</span></button>
 </nav>
+
+<div id="profileSheet" class="profile-sheet" onclick="closeProfile(event)">
+  <div class="profile-card" onclick="event.stopPropagation()">
+    <div class="profile-letter">A</div>
+    <h3>Account</h3>
+    <p>Your App Store profile</p>
+    <button class="profile-close" onclick="showProfile(false)">Done</button>
+  </div>
+</div>
 
 <script>
 const API='https://itunes.apple.com';
@@ -87,13 +96,56 @@ async function switchTab(tab){
   if(tab==='arcade'){renderCategory('Arcade','arcade','arcade games');return}
 }
 async function renderCategory(title,type,term){show('category');document.getElementById('categoryTitle').textContent=title;const b=document.getElementById('categoryBody');b.innerHTML='<div class="loading">Loading App Store apps…</div>';try{let list=await searchApps(term,30);if(type==='games')list=list.filter(x=>/game/i.test(x.primaryGenreName||''));if(type==='apps')list=list.filter(x=>!/game/i.test(x.primaryGenreName||''));list=list.slice(0,18);b.innerHTML=list.map(appRow).join('')||'<div class="empty">No apps found.</div>'}catch(e){b.innerHTML='<div class="empty">Could not load the App Store catalogue right now.</div>'}}
-function appRow(a){const id=a.trackId;return `<div class="row" onclick="openApp(${id})"><div class="icon"><img src="${esc(a.artworkUrl512||a.artworkUrl100||'')}" loading="lazy" alt=""></div><div class="info"><div class="name">${esc(a.trackName)}</div><div class="sub">${esc(a.artistName||a.sellerName||a.primaryGenreName||'App')}</div><div class="meta"><span class="stars">${ratingStars(a.averageUserRating)}</span><span>${compact(a.userRatingCount)}</span><span>${esc(a.primaryGenreName||'')}</span></div></div><div class="action"><button class="btn" onclick="event.stopPropagation();openStore('${esc(a.trackViewUrl||'')}')">${price(a)==='Free'?'Get':price(a)||'Get'}</button></div></div>`}
+function appRow(a){
+  const id=a.trackId;
+  const isService=/^Service NSW$/i.test(a.trackName||'');
+  const actionLabel=isService?'Open':(price(a)==='Free'?'Get':price(a)||'Get');
+  const actionClass=isService?'btn open':'btn';
+  return `<div class="row" onclick="openApp(${id})">
+    <div class="icon"><img src="${esc(a.artworkUrl512||a.artworkUrl100||'')}" loading="lazy" alt=""></div>
+    <div class="info"><div class="name">${esc(a.trackName)}</div><div class="sub">${esc(a.artistName||a.sellerName||a.primaryGenreName||'App')}</div>
+      <div class="meta"><span class="stars">${ratingStars(a.averageUserRating)}</span><span>${compact(a.userRatingCount)}</span><span>${esc(a.primaryGenreName||'')}</span></div>
+    </div>
+    <div class="action"><button class="${actionClass}" onclick="event.stopPropagation();openStore('${esc(a.trackViewUrl||'')}')">${actionLabel}</button></div>
+  </div>`;
+}
 
 function startSearch(initial=''){show('search');setTab('search');const i=document.getElementById('searchInput');i.value=initial||'';renderSuggestions(initial||'');i.focus()}
 function clearSearch(){document.getElementById('searchInput').value='';renderSuggestions('');document.getElementById('searchInput').focus()}
-const popular=['service nsw','mygov','google photos','brawl stars','temu','spotify','snapchat','youtube','instagram','facebook','tiktok','services australia','seek','strava','canva','microsoft teams'];
-function renderSuggestions(q){const ul=document.getElementById('suggestions');if(!q){ul.innerHTML='';return}const x=q.toLowerCase();const matches=popular.filter(t=>t.includes(x)).slice(0,10);ul.innerHTML=matches.map(t=>`<li class="suggestion" onclick="searchFor('${t.replace(/'/g,"\\'")}')"><span class="sicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></span>${esc(t)}</li>`).join('')||`<li class="suggestion" onclick="searchFor('${esc(q)}')"><span class="sicon">⌕</span>${esc(q)}</li>`}
-document.getElementById('searchInput').addEventListener('input',e=>{renderSuggestions(e.target.value);clearTimeout(searchTimer);if(e.target.value.trim().length>1)searchTimer=setTimeout(()=>searchFor(e.target.value.trim()),550)});
+let suggestionRequest=0;
+function suggestionRow(label, sub=''){
+  return `<li class="suggestion" onclick="searchFor('${esc(label).replace(/'/g,"\\'")}')">
+    <span class="sicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></span>
+    <span><div>${esc(label)}</div>${sub?`<div style="font-size:12px;color:#8e8e93;margin-top:2px">${esc(sub)}</div>`:''}</span>
+  </li>`;
+}
+async function renderSuggestions(q){
+  const ul=document.getElementById('suggestions');
+  const term=String(q||'').trim();
+  if(!term){ul.innerHTML='';return}
+  ul.innerHTML='<li class="suggestion"><span class="sicon">⌕</span><span>Searching…</span></li>';
+  const request=++suggestionRequest;
+  try{
+    const list=await searchApps(term,10);
+    if(request!==suggestionRequest)return;
+    const seen=new Set();
+    const matches=list.filter(a=>{
+      const key=(a.trackName||'').toLowerCase();
+      if(!key||seen.has(key))return false;
+      seen.add(key); return true;
+    }).slice(0,8);
+    ul.innerHTML=matches.map(a=>suggestionRow(a.trackName,a.artistName||a.primaryGenreName||'')).join('') ||
+      suggestionRow(term,'Search App Store');
+  }catch(e){
+    if(request===suggestionRequest) ul.innerHTML=suggestionRow(term,'Search App Store');
+  }
+}
+document.getElementById('searchInput').addEventListener('input',e=>{
+  const value=e.target.value;
+  clearTimeout(searchTimer);
+  renderSuggestions(value);
+  // Do not auto-submit while the user is still typing; keep the suggestion screen useful.
+});
 document.getElementById('searchInput').addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.value.trim())searchFor(e.target.value.trim())});
 
 async function searchFor(term){term=String(term||'').trim();if(!term)return;show('results');setTab('search');document.getElementById('resultsInput').value=term;const body=document.getElementById('resultsBody');body.innerHTML='<div class="loading">Searching the App Store…</div>';try{let list=await searchApps(term,50);if(/^service nsw$/i.test(term)){const exact=list.find(a=>a.trackName?.toLowerCase()==='service nsw');if(exact){body.innerHTML=featuredRow(exact)+list.filter(a=>a.trackId!==exact.trackId).map(appRow).join('')}else body.innerHTML=list.map(appRow).join('')}}catch(e){body.innerHTML='<div class="empty">Could not reach the App Store search service.</div>'}}
@@ -113,9 +165,35 @@ function openExternalApp(name){searchFor(name)}
 function getApp(name){searchFor(name)}
 function shareCurrent(){if(!currentApp)return;const url=currentApp.trackViewUrl||location.href;if(navigator.share)navigator.share({title:currentApp.trackName,url}).catch(()=>{});else navigator.clipboard?.writeText(url).then(()=>alert('App Store link copied.')).catch(()=>{})}
 function back(){show(previousView||'results')}
+function showProfile(open=true){
+  document.getElementById('profileSheet').classList.toggle('show',open);
+}
+function closeProfile(e){
+  if(e.target.id==='profileSheet') showProfile(false);
+}
+document.addEventListener('gesturestart',e=>e.preventDefault(),{passive:false});
+document.addEventListener('gesturechange',e=>e.preventDefault(),{passive:false});
+document.addEventListener('gestureend',e=>e.preventDefault(),{passive:false});
+
 
 /* Seed the search screen with the same familiar suggestions, but all actual result cards are live App Store data. */
-(async function init(){try{const list=await searchApps('service nsw',8);const service=list.find(a=>/^Service NSW$/i.test(a.trackName));const defaults=service?[service,...list.filter(a=>a.trackId!==service.trackId).slice(0,2)]:list.slice(0,3);document.getElementById('suggested').innerHTML=defaults.map(a=>appRow(a)).join('')}catch(e){document.getElementById('suggested').innerHTML='<div class="empty">App Store suggestions will appear when connected.</div>'}})();
-</script>
+(async function init(){
+  try{
+    const [temu, games] = await Promise.all([
+      searchApps('temu', 8),
+      searchApps('games', 20)
+    ]);
+    const temuApp = temu.find(a => /temu/i.test(a.trackName || ''));
+    const gameApps = games
+      .filter(a => /game/i.test(a.primaryGenreName || ''))
+      .filter((a,i,arr) => arr.findIndex(x => x.trackId === a.trackId) === i)
+      .slice(0,2);
+    const defaults = [temuApp, ...gameApps].filter(Boolean).slice(0,3);
+    document.getElementById('suggested').innerHTML = defaults.map(appRow).join('') ||
+      '<div class="empty">Suggestions will appear when connected.</div>';
+  }catch(e){
+    document.getElementById('suggested').innerHTML='<div class="empty">Suggestions will appear when connected.</div>';
+  }
+})();</script>
 </body>
 </html>
