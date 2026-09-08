@@ -28,6 +28,50 @@ button,input{font:inherit}.top{height:58px;padding:10px 20px 4px;display:flex;al
   .orientation-lock{display:flex;position:fixed;inset:0;z-index:9999;background:#fff;align-items:center;justify-content:center;text-align:center;padding:30px;font-size:18px;font-weight:600}
   .app,.tabbar{display:none!important}
 }
+
+/* Account profile sheet */
+.profile-sheet{
+  position:fixed;inset:0;z-index:500;display:flex;align-items:flex-end;
+  justify-content:center;background:rgba(0,0,0,.28);
+  opacity:0;visibility:hidden;pointer-events:none;transition:opacity .18s ease,visibility .18s ease;
+}
+.profile-sheet.show{opacity:1;visibility:visible;pointer-events:auto}
+.profile-card{
+  width:min(100%,430px);background:rgba(249,249,249,.98);
+  border-radius:18px 18px 0 0;padding:22px 20px calc(20px + var(--safe));
+  text-align:center;box-shadow:0 -4px 25px rgba(0,0,0,.12);
+  transform:translateY(18px);transition:transform .18s ease;
+}
+.profile-sheet.show .profile-card{transform:translateY(0)}
+.profile-letter{
+  width:64px;height:64px;border-radius:50%;margin:0 auto 12px;
+  display:grid;place-items:center;background:#b6dce9;color:#fff;
+  font-size:24px;font-weight:600;
+}
+.profile-card h3{font-size:22px;line-height:1.15;margin:0}
+.profile-card p{font-size:15px;color:var(--gray);margin-top:5px}
+.profile-close{
+  width:100%;height:44px;margin-top:18px;border:0;border-radius:12px;
+  background:#e9e9ed;color:var(--blue);font-size:17px;font-weight:600;cursor:pointer;
+}
+
+/* Search results use the same compact app-row proportions as the other tabs. */
+#resultsBody{padding:0 16px}
+#resultsBody .row{min-height:80px;padding:9px 0;gap:13px}
+#resultsBody .icon{width:62px;height:62px;border-radius:14px}
+#resultsBody .name{font-size:16px}
+#resultsBody .sub{font-size:13px}
+#resultsBody .meta{font-size:11px}
+#resultsBody .btn{min-width:69px;height:31px}
+
+/* Keep the featured horizontal screenshot strip compact and proportional. */
+.featured{margin:6px 0 18px;padding:14px;border-radius:17px}
+.screens{gap:9px;margin-top:12px;padding-bottom:2px}
+.screen{width:128px;border-radius:13px}
+
+/* Prevent any hidden account markup from taking layout space. */
+.profile-sheet:not(.show){display:flex}
+
 </style>
 </head>
 <body>
@@ -80,7 +124,7 @@ button,input{font:inherit}.top{height:58px;padding:10px 20px 4px;display:flex;al
 
 <script>
 const API='https://itunes.apple.com';
-const localService={name:'Service NSW',icon:'icon1.png'};
+const localService={name:'Service NSW'};
 let currentView='home',previousView='results',currentApp=null,searchTimer=null;
 const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
 const ratingStars=n=>{n=Math.round(Number(n)||0);return '★'.repeat(Math.max(0,Math.min(5,n)))+'☆'.repeat(5-Math.max(0,Math.min(5,n)))};
@@ -89,7 +133,13 @@ const age=v=>v||'—';
 const price=a=>a.formattedPrice||((a.price===0)?'Free':'');
 
 function jsonp(url){return new Promise((resolve,reject)=>{const cb='cb_'+Date.now()+'_'+Math.random().toString(36).slice(2);const s=document.createElement('script');const timer=setTimeout(()=>{cleanup();reject(new Error('timeout'))},12000);function cleanup(){clearTimeout(timer);delete window[cb];s.remove()}window[cb]=data=>{cleanup();resolve(data)};s.onerror=()=>{cleanup();reject(new Error('network'))};s.src=url+(url.includes('?')?'&':'?')+'callback='+cb;document.body.appendChild(s)})}
-async function searchApps(term,limit=25){const url=API+'/search?term='+encodeURIComponent(term)+'&country=au&media=software&entity=software&limit='+limit+'&lang=en_au';const data=await jsonp(url);return (data.results||[]).filter(x=>x.wrapperType==='software')}
+async function searchApps(term,limit=50){
+  term=String(term||'').trim();
+  if(!term)return [];
+  const url=API+'/search?term='+encodeURIComponent(term)+'&country=au&media=software&entity=software&limit='+limit+'&lang=en_au';
+  const data=await jsonp(url);
+  return (data.results||[]).filter(x=>x.wrapperType==='software' && x.trackId);
+}
 async function lookupApp(id){const data=await jsonp(API+'/lookup?id='+encodeURIComponent(id)+'&country=au&entity=software');return data.results?.find(x=>x.wrapperType==='software')||null}
 
 function show(id){document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0);currentView=id}
@@ -151,13 +201,30 @@ async function renderSuggestions(q){
 document.getElementById('searchInput').addEventListener('input',e=>{
   const value=e.target.value;
   clearTimeout(searchTimer);
-  renderSuggestions(value);
-  // Do not auto-submit while the user is still typing; keep the suggestion screen useful.
+  searchTimer=setTimeout(()=>renderSuggestions(value),180);
 });
 document.getElementById('searchInput').addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.value.trim())searchFor(e.target.value.trim())});
 
-async function searchFor(term){term=String(term||'').trim();if(!term)return;show('results');setTab('search');document.getElementById('resultsInput').value=term;const body=document.getElementById('resultsBody');body.innerHTML='<div class="loading">Searching the App Store…</div>';try{let list=await searchApps(term,50);if(/^service nsw$/i.test(term)){const exact=list.find(a=>a.trackName?.toLowerCase()==='service nsw');if(exact){body.innerHTML=featuredRow(exact)+list.filter(a=>a.trackId!==exact.trackId).map(appRow).join('')}else body.innerHTML=list.map(appRow).join('')}}catch(e){body.innerHTML='<div class="empty">Could not reach the App Store search service.</div>'}}
-function featuredRow(a){return `<div class="featured" onclick="openApp(${a.trackId})"><div class="feat-head"><div class="feat-icon"><img src="${esc(/^Service NSW$/i.test(a.trackName)?localService.icon:(a.artworkUrl512||a.artworkUrl100))}" alt=""></div><div class="feat-info"><div class="feat-name">${esc(a.trackName)}</div><div class="feat-sub">${esc(a.artistName||a.sellerName||a.primaryGenreName||'')}</div><div class="meta"><span class="stars">${ratingStars(a.averageUserRating)}</span><span>${compact(a.userRatingCount)}</span><span>${esc(a.primaryGenreName||'')}</span></div></div><button class="btn open" onclick="event.stopPropagation();openStore('${esc(/^Service NSW$/i.test(a.trackName)?'servicensw://':(a.trackViewUrl||appStoreWebUrl(a)))}')">${/^Service NSW$/i.test(a.trackName)?'Open':(price(a)==='Free'?'Get':price(a)||'Get')}</button></div><div class="screens">${(a.screenshotUrls||[]).slice(0,3).map(s=>`<div class="screen"><img src="${esc(s)}" alt=""></div>`).join('')}</div></div>`}
+async function searchFor(term){
+  term=String(term||'').trim();
+  if(!term)return;
+  show('results');
+  setTab('search');
+  document.getElementById('resultsInput').value=term;
+  const body=document.getElementById('resultsBody');
+  body.innerHTML='<div class="loading">Searching the App Store…</div>';
+  try{
+    const list=await searchApps(term,50);
+    const exact=list.find(a=>String(a.trackName||'').toLowerCase()===term.toLowerCase());
+    const rest=exact?list.filter(a=>a.trackId!==exact.trackId):list;
+    body.innerHTML=(exact?featuredRow(exact):'')+
+      rest.map(appRow).join('')+
+      (!exact&&!rest.length?'<div class="empty">No apps found for “'+esc(term)+'”.</div>':'');
+  }catch(e){
+    body.innerHTML='<div class="empty">Could not reach the App Store search service. Check your connection and try again.</div>';
+  }
+}
+function featuredRow(a){return `<div class="featured" onclick="openApp(${a.trackId})"><div class="feat-head"><div class="feat-icon"><img src="${esc(a.artworkUrl512||a.artworkUrl100||'')}" alt=""></div><div class="feat-info"><div class="feat-name">${esc(a.trackName)}</div><div class="feat-sub">${esc(a.artistName||a.sellerName||a.primaryGenreName||'')}</div><div class="meta"><span class="stars">${ratingStars(a.averageUserRating)}</span><span>${compact(a.userRatingCount)}</span><span>${esc(a.primaryGenreName||'')}</span></div></div><button class="btn open" onclick="event.stopPropagation();openStore('${esc(/^Service NSW$/i.test(a.trackName)?'servicensw://':(a.trackViewUrl||appStoreWebUrl(a)))}')">${/^Service NSW$/i.test(a.trackName)?'Open':(price(a)==='Free'?'Get':price(a)||'Get')}</button></div><div class="screens">${(a.screenshotUrls||[]).slice(0,3).map(s=>`<div class="screen"><img src="${esc(s)}" alt=""></div>`).join('')}</div></div>`}
 
 async function openApp(id){previousView=currentView;show('detail');const b=document.getElementById('detailBody');b.innerHTML='<div class="loading">Loading app profile…</div>';try{const a=await lookupApp(id);if(!a){b.innerHTML='<div class="empty">App details could not be loaded.</div>';return}currentApp=a;renderDetail(a)}catch(e){b.innerHTML='<div class="empty">Could not load this app profile.</div>'}}
 function renderDetail(a){const icon=/^Service NSW$/i.test(a.trackName)?localService.icon:(a.artworkUrl512||a.artworkUrl100||'');const screenshots=a.screenshotUrls||[];document.getElementById('detailBody').innerHTML=`
