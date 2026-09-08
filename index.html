@@ -20,13 +20,13 @@ button,input{font:inherit}.top{height:58px;padding:10px 20px 4px;display:flex;al
 /* Natural iOS/App Store-style bottom tab bar. It stays inside the phone width. */
 .tabbar{position:fixed;left:50%;bottom:0;transform:translate3d(-50%,0,0);width:min(100vw,430px);height:calc(var(--nav) + var(--safe));padding:6px 5px var(--safe);display:flex;align-items:flex-start;background:var(--bar);border-top:.5px solid rgba(60,60,67,.28);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);z-index:100}.tab{appearance:none;border:0;background:none;color:#8e8e93;flex:1;height:76px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:1px;font-size:10px;line-height:12px;cursor:pointer}.tab.active{color:var(--blue)}.tab svg{width:24px;height:24px;margin-top:2px;margin-bottom:1px}.tab:active{opacity:.55}
 .detail-nav{height:51px;display:flex;align-items:center;justify-content:space-between;padding:7px 16px;position:sticky;top:0;z-index:30;background:rgba(255,255,255,.94);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}.navbtn{width:34px;height:34px;border:0;border-radius:50%;background:#efeff0;display:grid;place-items:center;cursor:pointer}.navbtn svg{width:18px;height:18px}.detail-top{display:flex;gap:15px;padding:12px 20px 18px;align-items:flex-start}.big-icon{width:104px;height:104px;border-radius:23px;overflow:hidden;flex:none;box-shadow:0 3px 12px rgba(0,0,0,.12)}.big-icon img{width:100%;height:100%;object-fit:cover}.detail-main{min-width:0;flex:1}.detail-name{font-size:22px;line-height:1.12;font-weight:700;letter-spacing:-.4px}.detail-dev{font-size:15px;color:var(--gray);margin-top:4px}.detail-open{margin-top:13px}.detail-open .btn{background:var(--blue);color:#fff;min-width:86px;height:34px}.share-title{font-size:13px;color:var(--gray);margin-top:6px}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);padding:14px 4px;border-top:.5px solid var(--line);border-bottom:.5px solid var(--line);text-align:center}.stat-label{font-size:9px;color:var(--gray);text-transform:uppercase;letter-spacing:.15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.stat-value{font-size:18px;font-weight:600;margin-top:3px}.stat-sub{font-size:11px;color:var(--gray);margin-top:1px}.detail-section{padding:20px 20px 8px}.detail-section h2{font-size:22px;line-height:1.1;margin-bottom:10px}.version{display:flex;justify-content:space-between;color:var(--gray);font-size:14px;margin-bottom:9px}.description{font-size:15px;line-height:1.45}.preview-title{padding:18px 20px 10px;font-size:22px;font-weight:700}.preview{display:flex;gap:12px;overflow-x:auto;padding:0 20px 20px;scrollbar-width:none}.preview::-webkit-scrollbar{display:none}.preview-card{width:210px;aspect-ratio:9/19.5;flex:none;border-radius:17px;overflow:hidden;background:#fff}.preview-card img{width:100%;height:100%;object-fit:fill;display:block}.link-row{padding:13px 20px;border-top:.5px solid var(--line);font-size:15px;color:var(--blue);cursor:pointer}.loading{padding:22px;text-align:center;color:var(--gray);font-size:13px}.empty{padding:35px 20px;text-align:center;color:var(--gray)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);padding:14px 4px;border-top:.5px solid var(--line);border-bottom:.5px solid var(--line);text-align:center}.stat-label{font-size:9px;color:var(--gray);text-transform:uppercase;letter-spacing:.15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.stat-value{font-size:18px;font-weight:600;margin-top:3px}.stat-sub{font-size:11px;color:var(--gray);margin-top:1px}.detail-section{padding:20px 20px 8px}.detail-section h2{font-size:22px;line-height:1.1;margin-bottom:10px}.version{display:flex;justify-content:space-between;color:var(--gray);font-size:14px;margin-bottom:9px}.description{font-size:15px;line-height:1.45}.preview-title{padding:18px 20px 10px;font-size:22px;font-weight:700}.preview{display:flex;gap:12px;overflow-x:auto;padding:0 20px 20px;scrollbar-width:none}.preview::-webkit-scrollbar{display:none}.preview-card{width:210px;aspect-ratio:9/19.5;flex:none;border-radius:17px;overflow:hidden;background:#fff}.preview-card img{width:100%;height:100%;object-fit:fill;display:block}.link-row{padding:13px 20px;border-top:.5px solid var(--line);font-size:15px;color:var(--blue);cursor:pointer}.loading{min-height:90px;padding:22px;text-align:center;color:transparent;font-size:0}.empty{padding:35px 20px;text-align:center;color:var(--gray)}
 @media(min-width:431px){body{background:#f2f2f7}.app{height:100dvh;min-height:0;overflow:hidden;box-shadow:0 0 0 .5px rgba(0,0,0,.08)}}
-
-.orientation-lock{display:none}
 @media (orientation:landscape){
-  .orientation-lock{display:flex;position:fixed;inset:0;z-index:9999;background:#fff;align-items:center;justify-content:center;text-align:center;padding:30px;font-size:18px;font-weight:600}
-  .app,.tabbar{display:none!important}
+  body{overflow:hidden}
+  .app{width:430px;max-width:430px;height:100dvw;min-height:100dvw;max-height:none;margin:0 auto}
+  .view{height:100dvw;min-height:932px}
+  .tabbar{width:430px}
 }
 
 /* Account profile sheet */
@@ -72,10 +72,52 @@ button,input{font:inherit}.top{height:58px;padding:10px 20px 4px;display:flex;al
 /* Prevent any hidden account markup from taking layout space. */
 .profile-sheet:not(.show){display:flex}
 
+
+/* Apple Account page */
+.profile-view,.profile-detail-view{background:#f2f2f7;color:#000}
+.account-nav{height:96px;padding:45px 20px 10px;display:flex;align-items:center;justify-content:space-between;background:#f2f2f7}
+.account-brand{display:flex;align-items:center;gap:10px;font-size:20px;font-weight:600}
+.apple-dots{width:31px;height:31px;border-radius:50%;display:grid;place-items:center;color:#000;background:conic-gradient(#52b9ff,#9c78ff,#ff6d82,#ffbd6e,#52b9ff);font-size:12px}
+.account-x{width:44px;height:44px;border:0;border-radius:50%;background:#fff;font-size:38px;font-weight:300;line-height:38px;cursor:pointer;color:#111}
+.account-content{padding:24px 16px 38px}
+.account-card{background:#fff;border-radius:28px;overflow:hidden;margin-bottom:26px}
+.account-person{padding:18px 18px 0}
+.account-person-row{width:100%;border:0;background:none;display:flex;align-items:center;text-align:left;gap:16px;padding:11px 0;cursor:pointer}
+.account-avatar{flex:none;border-radius:50%;display:grid;place-items:center;color:#fff;background:#b6dce9}
+.account-avatar.large{width:66px;height:66px;font-size:25px}
+.account-avatar.small{width:48px;height:48px;font-size:21px;background:#f1a277}
+.account-person-copy{min-width:0;flex:1;display:flex;flex-direction:column}
+.account-person-copy strong{font-size:22px;line-height:1.2}
+.account-person-copy span{font-size:16px;color:#8e8e93;margin-top:4px}
+.chevron{font-size:36px;line-height:1;color:#c7c7c9;font-weight:300}
+.account-divider{height:.5px;background:#d8d8dc;margin:8px 14px 0 84px}
+.game-title{font-size:20px;flex:1}
+.game-name{font-size:16px;color:#8e8e93}
+.external-arrow{font-size:27px;color:#c7c7c9;margin-left:7px}
+.account-links button{width:100%;min-height:58px;border:0;border-bottom:.5px solid #d8d8dc;background:#fff;padding:0 28px;display:flex;align-items:center;text-align:left;gap:12px;font-size:19px;cursor:pointer}
+.account-links button:last-child{border-bottom:0}
+.account-links button:active,.account-actions button:active,.account-person-row:active{background:#f5f5f7}
+.account-links .chevron{margin-left:auto}
+.account-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:0 0 28px}
+.account-actions button{border:0;background:#fff;border-radius:28px;min-height:94px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;color:#007aff;font-size:15px;cursor:pointer}
+.action-icon{font-size:27px;line-height:1}
+.bottom-links button{font-size:18px;color:#007aff}
+.line-icon{width:42px;text-align:center;font-size:29px;line-height:1;color:#007aff}
+.bottom-links{margin-bottom:0}
+.profile-detail-title{font-size:17px;font-weight:600}
+.profile-detail-view .detail-nav{background:#f2f2f7}
+.profile-detail-content{padding:24px 20px 50px}
+.profile-detail-content h1{font-size:30px;margin-bottom:10px}
+.profile-detail-content p{font-size:17px;line-height:1.45;color:#3c3c43}
+.profile-detail-content .web-action{width:100%;border:0;border-radius:13px;background:#fff;padding:17px 16px;margin-top:14px;text-align:left;font-size:17px;cursor:pointer;display:flex;justify-content:space-between}
+.profile-detail-content .note{font-size:14px;color:#8e8e93;margin-top:16px}
+@media (orientation:landscape){
+  .profile-view,.profile-detail-view{width:430px;margin:0 auto}
+}
+
 </style>
 </head>
 <body>
-<div class="orientation-lock">Please rotate your phone back to portrait.</div>
 <div class="app">
   <section id="home" class="view active">
     <div class="top"><h1>Search</h1><button class="avatar" aria-label="Account" onclick="showProfile()">A</button></div>
@@ -102,6 +144,60 @@ button,input{font:inherit}.top{height:58px;padding:10px 20px 4px;display:flex;al
 
   <section id="category" class="view"><div class="top"><h1 id="categoryTitle">Apps</h1><button class="avatar" aria-label="Account" onclick="showProfile()">A</button></div><div id="categoryBody" class="categoryBody"></div></section>
 
+
+  <section id="profileView" class="view profile-view">
+    <div class="account-nav">
+      <div class="account-brand"><div class="apple-dots">●</div><span>Apple Account</span></div>
+      <button class="account-x" aria-label="Close account" onclick="showProfile(false)">×</button>
+    </div>
+
+    <div class="account-content">
+      <div class="account-card account-person">
+        <button class="account-person-row" onclick="openProfilePage('account')">
+          <div class="account-avatar large">AS</div>
+          <div class="account-person-copy"><strong>Austin Sainsbery</strong><span>Account info, payments and settings</span></div>
+          <span class="chevron">›</span>
+        </button>
+        <div class="account-divider"></div>
+        <button class="account-person-row game-row" onclick="openProfilePage('gamecenter')">
+          <div class="account-avatar small">M</div>
+          <div class="game-title">Game Center</div>
+          <span class="game-name">MerryMage718</span><span class="external-arrow">↗</span>
+        </button>
+      </div>
+
+      <div class="account-card account-links">
+        <button onclick="openProfilePage('updates')">App Updates<span class="chevron">›</span></button>
+        <button onclick="openProfilePage('subscriptions')">Subscriptions<span class="chevron">›</span></button>
+        <button onclick="openProfilePage('purchases')">Apps &amp; Purchase History<span class="chevron">›</span></button>
+        <button onclick="openProfilePage('notifications')">Notifications<span class="chevron">›</span></button>
+        <button onclick="openProfilePage('ratings')">Ratings &amp; Reviews<span class="chevron">›</span></button>
+        <button onclick="openProfilePage('recommendations')">Personalised Recommendations<span class="chevron">›</span></button>
+      </div>
+
+      <div class="account-actions">
+        <button onclick="openProfilePage('money')"><span class="action-icon">$</span><span>Add Money</span></button>
+        <button onclick="openProfilePage('redeem')"><span class="action-icon">▣</span><span>Redeem Code</span></button>
+        <button onclick="openProfilePage('gift')"><span class="action-icon">🎁</span><span>Send Gift Card</span></button>
+      </div>
+
+      <div class="account-card account-links bottom-links">
+        <button onclick="openProfilePage('family')"><span class="line-icon">♧</span><span>Set Up Family</span><span class="chevron">›</span></button>
+        <button onclick="openProfilePage('settings')"><span class="line-icon">⚙</span><span>App Store Settings</span><span class="chevron">›</span></button>
+        <button onclick="openProfilePage('help')"><span class="line-icon">?</span><span>Help &amp; Support</span><span class="chevron">›</span></button>
+      </div>
+    </div>
+  </section>
+
+  <section id="profileDetail" class="view profile-detail-view">
+    <div class="detail-nav account-detail-nav">
+      <button class="navbtn" onclick="showProfile(true)"><svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.2" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <div id="profileDetailTitle" class="profile-detail-title"></div>
+      <div style="width:34px"></div>
+    </div>
+    <div id="profileDetailBody"></div>
+  </section>
+
   <section id="detail" class="view"><div class="detail-nav"><button class="navbtn" onclick="back()"><svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.2" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg></button><button class="navbtn" onclick="shareCurrent()"><svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><path d="M16 6l-4-4-4 4M12 2v13"/></svg></button></div><div id="detailBody"></div></section>
 </div>
 
@@ -112,15 +208,6 @@ button,input{font:inherit}.top{height:58px;padding:10px 20px 4px;display:flex;al
   <button class="tab" data-tab="arcade" onclick="switchTab('arcade')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10l8-4 8 4-8 4-8-4z"/><path d="M4 14l8 4 8-4"/><circle cx="12" cy="9" r="1.2"/></svg><span>Arcade</span></button>
   <button class="tab active" data-tab="search" onclick="switchTab('search')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.2"/><path d="M15.2 15.2L20 20"/></svg><span>Search</span></button>
 </nav>
-
-<div id="profileSheet" class="profile-sheet" onclick="closeProfile(event)">
-  <div class="profile-card" onclick="event.stopPropagation()">
-    <div class="profile-letter">A</div>
-    <h3>Account</h3>
-    <p>Your App Store profile</p>
-    <button class="profile-close" onclick="showProfile(false)">Done</button>
-  </div>
-</div>
 
 <script>
 const API='https://itunes.apple.com';
@@ -152,19 +239,20 @@ async function switchTab(tab){
   if(tab==='apps'){renderCategory('Apps','apps','apps');return}
   if(tab==='arcade'){renderCategory('Arcade','arcade','arcade games');return}
 }
-async function renderCategory(title,type,term){show('category');document.getElementById('categoryTitle').textContent=title;const b=document.getElementById('categoryBody');b.innerHTML='<div class="loading">Loading App Store apps…</div>';try{let list=await searchApps(term,30);if(type==='games')list=list.filter(x=>/game/i.test(x.primaryGenreName||''));if(type==='apps')list=list.filter(x=>!/game/i.test(x.primaryGenreName||''));list=list.slice(0,18);b.innerHTML=list.map(appRow).join('')||'<div class="empty">No apps found.</div>'}catch(e){b.innerHTML='<div class="empty">Could not load the App Store catalogue right now.</div>'}}
+async function renderCategory(title,type,term){show('category');document.getElementById('categoryTitle').textContent=title;const b=document.getElementById('categoryBody');b.innerHTML='';try{let list=await searchApps(term,30);if(type==='games')list=list.filter(x=>/game/i.test(x.primaryGenreName||''));if(type==='apps')list=list.filter(x=>!/game/i.test(x.primaryGenreName||''));list=list.slice(0,18);b.innerHTML=list.map(appRow).join('')||'<div class="empty">No apps found.</div>'}catch(e){b.innerHTML='<div class="empty">Could not load the App Store catalogue right now.</div>'}}
 function appRow(a){
   const id=a.trackId;
   const isService=/^Service NSW$/i.test(a.trackName||'');
   const actionLabel=isService?'Open':(price(a)==='Free'?'Get':price(a)||'Get');
   const actionClass=isService?'btn open':'btn';
   const storeUrl=isService?'servicensw://':(a.trackViewUrl||appStoreWebUrl(a));
+  const safeStoreUrl=esc(storeUrl).replace(/'/g,"\\'");
   return `<div class="row" onclick="openApp(${id})">
     <div class="icon"><img src="${esc(a.artworkUrl512||a.artworkUrl100||'')}" loading="lazy" alt=""></div>
     <div class="info"><div class="name">${esc(a.trackName)}</div><div class="sub">${esc(a.artistName||a.sellerName||a.primaryGenreName||'App')}</div>
       <div class="meta"><span class="stars">${ratingStars(a.averageUserRating)}</span><span>${compact(a.userRatingCount)}</span><span>${esc(a.primaryGenreName||'')}</span></div>
     </div>
-    <div class="action"><button class="${actionClass}" onclick="event.stopPropagation();openStore('${esc(a.trackViewUrl||'')}')">${actionLabel}</button></div>
+    <div class="action"><button class="${actionClass}" onclick="event.stopPropagation();openStore('${safeStoreUrl}')">${actionLabel}</button></div>
   </div>`;
 }
 
@@ -181,7 +269,7 @@ async function renderSuggestions(q){
   const ul=document.getElementById('suggestions');
   const term=String(q||'').trim();
   if(!term){ul.innerHTML='';return}
-  ul.innerHTML='<li class="suggestion"><span class="sicon">⌕</span><span>Searching…</span></li>';
+  ul.innerHTML='';
   const request=++suggestionRequest;
   try{
     const list=await searchApps(term,10);
@@ -212,7 +300,7 @@ async function searchFor(term){
   setTab('search');
   document.getElementById('resultsInput').value=term;
   const body=document.getElementById('resultsBody');
-  body.innerHTML='<div class="loading">Searching the App Store…</div>';
+  body.innerHTML='';
   try{
     const list=await searchApps(term,50);
     const exact=list.find(a=>String(a.trackName||'').toLowerCase()===term.toLowerCase());
@@ -224,17 +312,17 @@ async function searchFor(term){
     body.innerHTML='<div class="empty">Could not reach the App Store search service. Check your connection and try again.</div>';
   }
 }
-function featuredRow(a){return `<div class="featured" onclick="openApp(${a.trackId})"><div class="feat-head"><div class="feat-icon"><img src="${esc(a.artworkUrl512||a.artworkUrl100||'')}" alt=""></div><div class="feat-info"><div class="feat-name">${esc(a.trackName)}</div><div class="feat-sub">${esc(a.artistName||a.sellerName||a.primaryGenreName||'')}</div><div class="meta"><span class="stars">${ratingStars(a.averageUserRating)}</span><span>${compact(a.userRatingCount)}</span><span>${esc(a.primaryGenreName||'')}</span></div></div><button class="btn open" onclick="event.stopPropagation();openStore('${esc(/^Service NSW$/i.test(a.trackName)?'servicensw://':(a.trackViewUrl||appStoreWebUrl(a)))}')">${/^Service NSW$/i.test(a.trackName)?'Open':(price(a)==='Free'?'Get':price(a)||'Get')}</button></div><div class="screens">${(a.screenshotUrls||[]).slice(0,3).map(s=>`<div class="screen"><img src="${esc(s)}" alt=""></div>`).join('')}</div></div>`}
+function featuredRow(a){return `<div class="featured" onclick="openApp(${a.trackId})"><div class="feat-head"><div class="feat-icon"><img src="${esc(a.artworkUrl512||a.artworkUrl100||'')}" alt=""></div><div class="feat-info"><div class="feat-name">${esc(a.trackName)}</div><div class="feat-sub">${esc(a.artistName||a.sellerName||a.primaryGenreName||'')}</div><div class="meta"><span class="stars">${ratingStars(a.averageUserRating)}</span><span>${compact(a.userRatingCount)}</span><span>${esc(a.primaryGenreName||'')}</span></div></div><button class="btn open" onclick="event.stopPropagation();openStore('${esc(/^Service NSW$/i.test(a.trackName)?'servicensw://':(a.trackViewUrl||appStoreWebUrl(a))).replace(/'/g,"\\'")}')">${/^Service NSW$/i.test(a.trackName)?'Open':(price(a)==='Free'?'Get':price(a)||'Get')}</button></div><div class="screens">${(a.screenshotUrls||[]).slice(0,3).map(s=>`<div class="screen"><img src="${esc(s)}" alt=""></div>`).join('')}</div></div>`}
 
-async function openApp(id){previousView=currentView;show('detail');const b=document.getElementById('detailBody');b.innerHTML='<div class="loading">Loading app profile…</div>';try{const a=await lookupApp(id);if(!a){b.innerHTML='<div class="empty">App details could not be loaded.</div>';return}currentApp=a;renderDetail(a)}catch(e){b.innerHTML='<div class="empty">Could not load this app profile.</div>'}}
-function renderDetail(a){const icon=/^Service NSW$/i.test(a.trackName)?localService.icon:(a.artworkUrl512||a.artworkUrl100||'');const screenshots=a.screenshotUrls||[];document.getElementById('detailBody').innerHTML=`
-<div class="detail-top"><div class="big-icon"><img src="${esc(icon)}" alt="${esc(a.trackName)}"></div><div class="detail-main"><div class="detail-name">${esc(a.trackName)}</div><div class="detail-dev">${esc(a.artistName||a.sellerName||'')}</div><div class="detail-open"><button class="btn" style="background:#007aff;color:#fff" onclick="openStore('${esc(/^Service NSW$/i.test(a.trackName)?'servicensw://':(a.trackViewUrl||appStoreWebUrl(a)))}')">${/^Service NSW$/i.test(a.trackName)?'Open':(price(a)==='Free'?'Get':price(a)||'Get')}</button></div><div class="share-title">${esc(a.primaryGenreName||'App')}</div></div></div>
+async function openApp(id){previousView=currentView;show('detail');const b=document.getElementById('detailBody');b.innerHTML='';try{const a=await lookupApp(id);if(!a){b.innerHTML='<div class="empty">App details could not be loaded.</div>';return}currentApp=a;renderDetail(a)}catch(e){b.innerHTML='<div class="empty">Could not load this app profile.</div>'}}
+function renderDetail(a){const icon=(a.artworkUrl512||a.artworkUrl100||'');const screenshots=a.screenshotUrls||[];document.getElementById('detailBody').innerHTML=`
+<div class="detail-top"><div class="big-icon"><img src="${esc(icon)}" alt="${esc(a.trackName)}"></div><div class="detail-main"><div class="detail-name">${esc(a.trackName)}</div><div class="detail-dev">${esc(a.artistName||a.sellerName||'')}</div><div class="detail-open"><button class="btn" style="background:#007aff;color:#fff" onclick="openStore('${esc(/^Service NSW$/i.test(a.trackName)?'servicensw://':(a.trackViewUrl||appStoreWebUrl(a))).replace(/'/g,"\\'")}')">${/^Service NSW$/i.test(a.trackName)?'Open':(price(a)==='Free'?'Get':price(a)||'Get')}</button></div><div class="share-title">${esc(a.primaryGenreName||'App')}</div></div></div>
 <div class="stats"><div><div class="stat-label">Ratings</div><div class="stat-value">${compact(a.userRatingCount)||'—'}</div><div class="stat-sub">${a.averageUserRating?Number(a.averageUserRating).toFixed(1)+' '+ratingStars(a.averageUserRating):'No ratings'}</div></div><div><div class="stat-label">Age Rating</div><div class="stat-value">${esc(age(a.trackContentRating))}</div><div class="stat-sub">Age</div></div><div><div class="stat-label">Version</div><div class="stat-value" style="font-size:15px">${esc(a.version||'—')}</div><div class="stat-sub">${a.currentVersionReleaseDate?new Date(a.currentVersionReleaseDate).toLocaleDateString('en-AU',{day:'numeric',month:'short',year:'numeric'}):''}</div></div><div><div class="stat-label">Category</div><div class="stat-value" style="font-size:13px">${esc(a.primaryGenreName||'—')}</div><div class="stat-sub">App Store</div></div></div>
 <div class="detail-section"><h2>What’s New</h2><div class="version"><span>Version ${esc(a.version||'')}</span><span>${a.currentVersionReleaseDate?new Date(a.currentVersionReleaseDate).toLocaleDateString('en-AU',{day:'numeric',month:'short'}):''}</span></div><p class="description">${esc(a.releaseNotes||'No release notes are available for this version.')}</p></div>
 <div class="detail-section"><h2>Information</h2><p class="description">${esc(a.description||'No description available.')}</p></div>
 <div class="preview-title">Preview</div><div class="preview">${screenshots.map(s=>`<div class="preview-card"><img src="${esc(s)}" alt=""></div>`).join('')||'<div class="empty">No preview images available.</div>'}</div>
 ${a.sellerUrl?`<div class="link-row" onclick="window.open('${esc(a.sellerUrl)}','_blank','noopener')">Developer Website</div>`:''}
-<div class="link-row" onclick="openStore('${esc(/^Service NSW$/i.test(a.trackName)?'servicensw://':(a.trackViewUrl||appStoreWebUrl(a)))}')">${/^Service NSW$/i.test(a.trackName)?'Open Service NSW':'View on the App Store'}</div>`}
+<div class="link-row" onclick="openStore('${esc(/^Service NSW$/i.test(a.trackName)?'servicensw://':(a.trackViewUrl||appStoreWebUrl(a))).replace(/'/g,"\\'")}')">${/^Service NSW$/i.test(a.trackName)?'Open Service NSW':'View on the App Store'}</div>`}
 function appStoreWebUrl(a){
   if(!a)return 'https://apps.apple.com/au/';
   if(a.trackViewUrl && /^https:\/\/apps\.apple\.com\//i.test(a.trackViewUrl)) return a.trackViewUrl;
@@ -243,25 +331,79 @@ function appStoreWebUrl(a){
 }
 function openStore(url){
   if(!url)return;
-  // Service NSW intentionally uses its custom URL scheme.
+  // Service NSW is the ONLY app allowed to use its native custom URL scheme.
   if(/^servicensw:\/\//i.test(url)){ window.location.href=url; return; }
-  // Normal apps are forced to the browser-based Australian App Store website.
+
+  // Every other app is opened as its normal App Store web URL in a browser tab.
   let target=url;
-  if(!/^https:\/\/apps\.apple\.com\//i.test(target)){
-    target='https://apps.apple.com/au/';
+  if(!/^https:\/\/apps\.apple\.com\//i.test(target)) target=appStoreWebUrl({trackName:''});
+  const w=window.open('about:blank','_blank');
+  if(w){
+    try{w.opener=null;}catch(e){}
+    w.location.replace(target);
+  }else{
+    window.location.assign(target);
   }
-  window.open(target,'_blank','noopener,noreferrer');
 }
 function openExternalApp(name){searchFor(name)}
 function getApp(name){searchFor(name)}
 function shareCurrent(){if(!currentApp)return;const url=currentApp.trackViewUrl||location.href;if(navigator.share)navigator.share({title:currentApp.trackName,url}).catch(()=>{});else navigator.clipboard?.writeText(url).then(()=>alert('App Store link copied.')).catch(()=>{})}
 function back(){show(previousView||'results')}
+const profilePages={
+  account:{title:'Account',heading:'Apple Account',text:'Manage your Apple Account, payment methods, personal information and account settings.',url:'https://account.apple.com/'},
+  gamecenter:{title:'Game Center',heading:'Game Center',text:'Open Game Center to manage your profile, friends, achievements and game activity.',url:'https://support.apple.com/en-au/101643'},
+  updates:{title:'App Updates',heading:'App Updates',text:'View available App Store updates and manage automatic app updates on your devices.',url:'https://support.apple.com/en-au/guide/iphone/iph8903c3ee6/ios'},
+  subscriptions:{title:'Subscriptions',heading:'Subscriptions',text:'View, change or cancel subscriptions billed through your Apple Account.',url:'https://support.apple.com/en-au/118428'},
+  purchases:{title:'Apps & Purchase History',heading:'Apps & Purchase History',text:'See your App Store purchases, downloads and purchase history.',url:'https://support.apple.com/en-au/118212'},
+  notifications:{title:'Notifications',heading:'Notifications',text:'Learn about App Store and Apple notification settings and how to manage them.',url:'https://support.apple.com/en-au/guide/iphone/iph7c3d96bab/ios'},
+  ratings:{title:'Ratings & Reviews',heading:'Ratings & Reviews',text:'Manage ratings and reviews you have submitted for App Store apps.',url:'https://support.apple.com/en-au/guide/iphone/iph8d8f5e7e/ios'},
+  recommendations:{title:'Personalised Recommendations',heading:'Personalised Recommendations',text:'Manage personalised recommendations and the information used to tailor App Store suggestions.',url:'https://support.apple.com/en-au/guide/iphone/iph4c7a1b6d3/ios'},
+  money:{title:'Add Money',heading:'Add Money to Apple Account',text:'Add funds to your Apple Account balance for apps, games, subscriptions and other Apple purchases.',url:'https://support.apple.com/en-au/118297'},
+  redeem:{title:'Redeem Code',heading:'Redeem a gift card or code',text:'Redeem an Apple Gift Card or App Store code using Apple’s official instructions.',url:'https://support.apple.com/en-au/108285'},
+  gift:{title:'Send Gift Card',heading:'Send a gift card',text:'Learn how to gift apps, media or Apple Gift Cards using Apple’s supported options.',url:'https://support.apple.com/en-au/118401'},
+  family:{title:'Set Up Family',heading:'Family Sharing',text:'Set up Family Sharing to share eligible subscriptions, purchases and services with family members.',url:'https://support.apple.com/en-au/108380'},
+  settings:{title:'App Store Settings',heading:'App Store Settings',text:'Open Apple’s iPhone guide for App Store settings, downloads, purchases and related preferences.',url:'https://support.apple.com/en-au/guide/iphone/iph4c7a1b6d3/ios'},
+  help:{title:'Help & Support',heading:'App Store Support',text:'Get official Apple Support for the App Store, purchases, subscriptions and account issues.',url:'https://support.apple.com/en-au/apps'}
+};
+let profilePreviousView='home';
 function showProfile(open=true){
-  document.getElementById('profileSheet').classList.toggle('show',open);
+  const profile=document.getElementById('profileView');
+  const detail=document.getElementById('profileDetail');
+  const tabs=document.getElementById('tabs');
+  if(open){
+    profilePreviousView=currentView||'home';
+    document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+    profile.classList.add('active');
+    if(detail)detail.classList.remove('active');
+    tabs.style.display='none';
+    currentView='profileView';
+    profile.scrollTop=0;
+  }else{
+    document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+    const target=document.getElementById(profilePreviousView)||document.getElementById('home');
+    target.classList.add('active');
+    tabs.style.display='flex';
+    currentView=target.id;
+  }
 }
-function closeProfile(e){
-  if(e.target.id==='profileSheet') showProfile(false);
+function openProfileExternal(url){
+  const w=window.open(url,'_blank');
+  if(w){try{w.opener=null}catch(e){}}else{window.location.href=url}
 }
+function openProfilePage(key){
+  const page=profilePages[key];
+  if(!page)return;
+  const detail=document.getElementById('profileDetail');
+  const body=document.getElementById('profileDetailBody');
+  document.getElementById('profileDetailTitle').textContent=page.title;
+  body.innerHTML=`<div class="profile-detail-content"><h1>${esc(page.heading)}</h1><p>${esc(page.text)}</p><button class="web-action" onclick="openProfileExternal('${page.url}')"><span>Open in Safari</span><span>↗</span></button><p class="note">This button opens Apple’s official support or account page for this setting.</p></div>`;
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  detail.classList.add('active');
+  document.getElementById('tabs').style.display='none';
+  currentView='profileDetail';
+  detail.scrollTop=0;
+}
+function closeProfile(e){if(e&&e.target&&e.target.id==='profileView')showProfile(false)}
 document.addEventListener('gesturestart',e=>e.preventDefault(),{passive:false});
 document.addEventListener('gesturechange',e=>e.preventDefault(),{passive:false});
 document.addEventListener('gestureend',e=>e.preventDefault(),{passive:false});
@@ -283,19 +425,17 @@ document.addEventListener('gestureend',e=>e.preventDefault(),{passive:false});
     document.getElementById('suggested').innerHTML = defaults.map(appRow).join('') ||
       '<div class="empty">Suggestions will appear when connected.</div>';
   }catch(e){
-    document.getElementById('suggested').innerHTML='<div class="empty">Suggestions will appear when connected.</div>';
+    document.getElementById('suggested').innerHTML='';
   }
 })();
-// Keep the app in portrait mode where the browser exposes orientation locking.
-async function lockPortrait(){
-  try{
-    if(screen.orientation && screen.orientation.lock){
-      await screen.orientation.lock('portrait');
-    }
-  }catch(e){}
+// Keep the UI in the same portrait-sized canvas even if the device is physically rotated.
+function maintainPortraitCanvas(){
+  document.documentElement.style.setProperty('--vw', Math.min(window.innerWidth,430)+'px');
+  document.documentElement.style.setProperty('--vh', window.innerHeight+'px');
 }
-lockPortrait();
-document.addEventListener('visibilitychange',()=>{if(!document.hidden)lockPortrait()});
+maintainPortraitCanvas();
+window.addEventListener('resize',maintainPortraitCanvas,{passive:true});
+window.addEventListener('orientationchange',maintainPortraitCanvas,{passive:true});
 </script>
 </body>
 </html>
