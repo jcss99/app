@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>App Store</title>
+<link rel="icon" href="icon1.png" type="image/png">
+<link rel="apple-touch-icon" href="icon1.png">
+<style>
+  :root {
+    --blue: #007AFF;
+    --gray: #8E8E93;
+    --sep: rgba(60,60,67,0.18);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; -webkit-font-smoothing:antialiased; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", sans-serif;
+    background:#fff; color:#000; min-height:100vh; overflow-x:hidden;
+  }
+  .wrap { max-width:430px; margin:0 auto; min-height:100vh; position:relative; }
+  .view { display:none; min-height:100vh; padding-bottom:calc(90px + var(--safe-bottom)); }
+  .view.active { display:block; }
+
+  .search-row {
+    display:flex; align-items:center; gap:10px;
+    padding:6px 16px 10px; background:#fff;
+    position:sticky; top:0; z-index:60;
+  }
+  .search-field {
+    flex:1; background:#EFEFF0; border-radius:12px; height:38px;
+    display:flex; align-items:center; padding:0 8px 0 12px; gap:8px;
+  }
+  .search-field input {
+    border:none; background:transparent; font-size:17px; width:100%;
+    outline:none; font-family:inherit; color:#000;
+  }
+  .search-field input::placeholder { color:var(--gray); }
+  .clear-x {
+    width:28px; height:28px; border-radius:50%; background:#C7C7CC;
+    border:none; display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0;
+  }
+  .clear-x svg { width:11px; height:11px; }
+  .cancel-x {
+    background:transparent; border:none; color:var(--blue); font-size:17px;
+    padding:0 2px; cursor:pointer; font-family:inherit;
+  }
+
+  .top { padding:8px 20px 4px; display:flex; justify-content:space-between; align-items:center; }
+  .top h1 { font-size:34px; font-weight:700; letter-spacing:-0.6px; }
+  .avatar {
+    width:34px; height:34px; border-radius:50%; background:#A8D5E5;
+    color:#fff; font-size:13px; font-weight:600; display:flex; align-items:center; justify-content:center;
+  }
+  .section-title {
+    font-size:22px; font-weight:700; letter-spacing:-0.3px;
+    padding:14px 20px 8px; display:flex; align-items:center; gap:3px;
+  }
+  .section-title .chev { color:#C7C7CC; font-weight:500; font-size:20px; }
+
+  .suggested-list { padding:0 16px; }
+  .app-row { display:flex; align-items:center; gap:14px; padding:11px 0; }
+  .app-row + .app-row { border-top:0.5px solid var(--sep); }
+  .icon {
+    width:60px; height:60px; border-radius:13px; flex-shrink:0;
+    overflow:hidden; box-shadow:0 1px 3px rgba(0,0,0,0.12);
+  }
+  .icon img { width:100%; height:100%; object-fit:cover; display:block; }
+
+  .info { flex:1; min-width:0; }
+  .name { font-size:16px; font-weight:500; display:flex; align-items:center; gap:6px; }
+  .ad { background:var(--blue); color:#fff; font-size:10px; font-weight:600; padding:1px 5px; border-radius:3px; }
+  .sub { font-size:13px; color:var(--gray); margin-top:1px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .action { display:flex; flex-direction:column; align-items:center; gap:2px; }
+  .btn {
+    min-width:68px; height:28px; border-radius:14px;
+    font-size:15px; font-weight:600; border:none; cursor:pointer;
+    font-family:inherit; padding:0 12px; text-decoration:none;
+    display:inline-flex; align-items:center; justify-content:center;
+  }
+  .btn-open { background:#E8F1FF; color:var(--blue); }
+  .btn-get  { background:#EFEFF0; color:var(--blue); }
+  .iap { font-size:9px; color:var(--gray); }
+
+  .browse-grid { display:grid; grid-template-columns:1fr 1fr; gap:11px; padding:4px 16px 20px; }
+  .card {
+    height:96px; border-radius:13px; padding:12px; color:#fff;
+    font-size:16px; font-weight:700; letter-spacing:-0.3px; line-height:1.2;
+    position:relative; overflow:hidden;
+  }
+  .card.blue   { background:linear-gradient(145deg,#6BA3E8,#4A8AD9); }
+  .card.orange { background:linear-gradient(145deg,#F5A26F,#E88A4A); }
+  .card.green  { background:linear-gradient(145deg,#6BCB8A,#4DB56E); }
+  .card.purple { background:linear-gradient(145deg,#A78BFA,#8B6CE8); }
+  .card.cyan   { background:linear-gradient(145deg,#7EC8E8,#5BB0D9); }
+  .card.yellow { background:linear-gradient(145deg,#F5D56B,#E8C04A); }
+  .card .deco { position:absolute; right:6px; bottom:4px; opacity:0.95; font-size:28px; }
+
+  .sugg-list { list-style:none; }
+  .sugg-item {
+    display:flex; align-items:center; gap:14px;
+    padding:13px 20px; border-bottom:0.5px solid var(--sep);
+    font-size:17px; cursor:pointer; color:#000;
+  }
+  .sugg-item:active { background:#F2F2F7; }
+  .sugg-ico {
+    width:22px; height:22px; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+    color:#8E8E93;
+  }
+  .sugg-ico svg { width:20px; height:20px; }
+
+  .featured {
+    background:#F0F7FF; border-radius:16px; margin:4px 16px 18px; padding:14px;
+  }
+  .feat-top { display:flex; align-items:center; gap:12px; margin-bottom:10px; }
+  .feat-name { font-size:16px; font-weight:600; display:flex; align-items:center; gap:6px; }
+  .feat-sub { font-size:13px; color:var(--gray); }
+  .feat-meta { display:flex; gap:14px; font-size:12px; color:var(--gray); margin-bottom:12px; flex-wrap:wrap; }
+  .shots { display:flex; gap:9px; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+  .shots::-webkit-scrollbar { display:none; }
+  .shot {
+    width:132px; height:235px; border-radius:12px; flex-shrink:0;
+    background:#007AFF; color:#fff; padding:11px; font-size:13px; font-weight:600;
+    display:flex; flex-direction:column;
+  }
+  .shot.dark { background:#1a3a5c; }
+
+  .result-row {
+    display:flex; align-items:center; gap:14px;
+    padding:13px 20px; cursor:pointer; border-bottom:0.5px solid var(--sep);
+  }
+  .result-row:active { background:#F8F8F8; }
+  .meta-line { display:flex; gap:10px; font-size:12px; color:var(--gray); margin-top:4px; flex-wrap:wrap; align-items:center; }
+  .stars { color:#FF9500; letter-spacing:-1px; font-size:13px; }
+
+  .detail-nav {
+    display:flex; justify-content:space-between; align-items:center;
+    padding:6px 16px; position:sticky; top:0;
+    background:rgba(255,255,255,0.94); backdrop-filter:blur(16px); z-index:50;
+  }
+  .nav-circle {
+    width:34px; height:34px; border-radius:50%; background:#EFEFF0; border:none;
+    display:flex; align-items:center; justify-content:center; cursor:pointer;
+  }
+  .nav-circle svg { width:17px; height:17px; }
+  .detail-head { display:flex; gap:16px; padding:6px 20px 18px; align-items:flex-start; }
+  .big-icon {
+    width:116px; height:116px; border-radius:26px;
+    overflow:hidden; box-shadow:0 4px 14px rgba(0,0,0,0.12); flex-shrink:0;
+  }
+  .big-icon img { width:100%; height:100%; object-fit:cover; }
+  .detail-title { font-size:22px; font-weight:700; letter-spacing:-0.3px; }
+  .detail-dev { font-size:15px; color:var(--gray); margin-top:1px; }
+  .open-big {
+    margin-top:12px; width:120px; height:34px; border-radius:17px;
+    background:var(--blue); color:#fff; font-size:16px; font-weight:600;
+    border:none; cursor:pointer; display:inline-flex; align-items:center; justify-content:center;
+    text-decoration:none;
+  }
+  .stats {
+    display:flex; justify-content:space-around; padding:14px 8px; text-align:center;
+    border-top:0.5px solid var(--sep); border-bottom:0.5px solid var(--sep);
+  }
+  .stat-label { font-size:10px; color:var(--gray); text-transform:uppercase; letter-spacing:0.3px; margin-bottom:3px; }
+  .stat-val { font-size:20px; font-weight:600; }
+  .stat-sub { font-size:12px; color:var(--gray); }
+  .sec { padding:18px 20px 6px; }
+  .sec h2 { font-size:22px; font-weight:700; margin-bottom:8px; display:flex; align-items:center; gap:4px; }
+  .sec h2 .chev { color:var(--gray); font-weight:400; }
+  .ver-row { display:flex; justify-content:space-between; font-size:15px; color:var(--gray); margin-bottom:8px; }
+  .whats { font-size:15px; line-height:1.45; }
+  .preview-row { display:flex; gap:11px; overflow-x:auto; padding:0 20px 24px; -webkit-overflow-scrolling:touch; }
+  .preview-row::-webkit-scrollbar { display:none; }
+  .prev {
+    width:210px; height:380px; border-radius:18px; flex-shrink:0;
+    overflow:hidden; position:relative; color:#fff;
+  }
+  .prev.navy { background:linear-gradient(160deg,#0A2A5C,#0D3B7A); }
+  .prev.red  { background:linear-gradient(160deg,#C41E3A,#E30613); }
+  .prev .lbl { position:absolute; top:18px; left:14px; right:14px; font-size:19px; font-weight:700; line-height:1.25; }
+  .prev .phone {
+    position:absolute; bottom:16px; left:50%; transform:translateX(-50%);
+    width:150px; height:270px; background:#111; border-radius:20px;
+    border:3px solid #333; overflow:hidden;
+  }
+
+  .tabbar {
+    position:fixed; bottom:0; left:0; right:0;
+    height:calc(83px + var(--safe-bottom));
+    background:rgba(255,255,255,0.94); backdrop-filter:blur(20px);
+    border-top:0.5px solid rgba(60,60,67,0.29);
+    display:flex; justify-content:space-around; align-items:flex-start;
+    padding-top:7px; padding-bottom:calc(28px + var(--safe-bottom)); z-index:100;
+  }
+  .tab { display:flex; flex-direction:column; align-items:center; gap:1px; width:62px; color:#8E8E93; font-size:10px; font-weight:500; }
+  .tab.active { color:var(--blue); }
+  .tab svg { width:24px; height:24px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- HOME -->
+<div id="view-home" class="view active">
+  <div class="top">
+    <h1>Search</h1>
+    <div class="avatar">AS</div>
+  </div>
+  <div class="search-row">
+    <div class="search-field" onclick="startSearch()">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#8E8E93" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      <input type="text" placeholder="Games, Apps, Stories and More" readonly>
+    </div>
+  </div>
+
+  <div class="section-title">Suggested <span class="chev">›</span></div>
+  <div class="suggested-list">
+    <div class="app-row">
+      <div class="icon"><img src="temu.png" alt="Temu"></div>
+      <div class="info">
+        <div class="name">Temu: Shop Like a Billionaire <span class="ad">Ad</span></div>
+        <div class="sub">Shop incredible deals on Temu!</div>
+      </div>
+      <div class="action"><button class="btn btn-open">Open</button></div>
+    </div>
+    <div class="app-row">
+      <div class="icon"><img src="brawl-stars.png" alt="Brawl Stars"></div>
+      <div class="info">
+        <div class="name">Brawl Stars</div>
+        <div class="sub">Epic PvP Battle Royale MOBA</div>
+      </div>
+      <div class="action"><button class="btn btn-get">Get</button><span class="iap">In-App Purchases</span></div>
+    </div>
+    <div class="app-row">
+      <div class="icon" style="background:#fff;display:flex;align-items:center;justify-content:center;">
+        <div style="width:36px;height:36px;border-radius:50%;background:conic-gradient(#4285F4 0 90deg,#EA4335 90deg 180deg,#FBBC05 180deg 270deg,#34A853 270deg 360deg);position:relative;">
+          <div style="position:absolute;inset:7px;background:#fff;border-radius:50%;"></div>
+        </div>
+      </div>
+      <div class="info">
+        <div class="name">Google Photos: Backup & Edit</div>
+        <div class="sub">Smart Photo and Video Storage</div>
+      </div>
+      <div class="action"><button class="btn btn-get">Get</button><span class="iap">In-App Purchases</span></div>
+    </div>
+  </div>
+
+  <div class="section-title">Browse <span class="chev">›</span></div>
+  <div class="browse-grid">
+    <div class="card blue">Top Downloaded Apps<div class="deco">🏆</div></div>
+    <div class="card orange">Top Downloaded Games<div class="deco">🏆</div></div>
+    <div class="card green">Top-Selling Apps<div class="deco">🪙</div></div>
+    <div class="card purple">Top-Selling Games<div class="deco">🪙</div></div>
+    <div class="card cyan">Productivity<div class="deco">✈️</div></div>
+    <div class="card yellow">Photo & Video<div class="deco">📷</div></div>
+  </div>
+</div>
+
+<!-- SUGGESTIONS -->
+<div id="view-suggestions" class="view">
+  <div class="search-row">
+    <div class="search-field">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#8E8E93" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      <input type="text" id="sugg-input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+      <button class="clear-x" id="clear-btn" style="display:none" onclick="clearInput()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <button class="cancel-x" onclick="goHome()">Cancel</button>
+  </div>
+  <ul class="sugg-list" id="sugg-list"></ul>
+</div>
+
+<!-- RESULTS -->
+<div id="view-results" class="view">
+  <div class="search-row">
+    <div class="search-field">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#8E8E93" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      <input type="text" id="res-input" readonly>
+      <button class="clear-x" onclick="clearInput()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <button class="cancel-x" onclick="goHome()">Cancel</button>
+  </div>
+  <div id="results-body"></div>
+</div>
+
+<!-- DETAIL -->
+<div id="view-detail" class="view">
+  <div class="detail-nav">
+    <button class="nav-circle" onclick="backFromDetail()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.3" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <button class="nav-circle">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.8"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+    </button>
+  </div>
+
+  <div class="detail-head">
+    <div class="big-icon">
+      <img src="icon1.png" alt="Service NSW">
+    </div>
+    <div>
+      <div class="detail-title">Service NSW</div>
+      <div class="detail-dev">Service NSW</div>
+      <a href="servicensw://" class="open-big">Open</a>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div><div class="stat-label">222K Ratings</div><div class="stat-val">4.6</div><div class="stat-sub">★★★★☆</div></div>
+    <div><div class="stat-label">Age Rating</div><div class="stat-val">4+</div><div class="stat-sub">Years</div></div>
+    <div><div class="stat-label">Chart</div><div class="stat-val">No.19</div><div class="stat-sub">Utilities</div></div>
+    <div><div class="stat-label">Developer</div><div class="stat-val" style="font-size:17px">👤</div><div class="stat-sub">Service NSW</div></div>
+  </div>
+
+  <div class="sec">
+    <h2>What’s New <span class="chev">›</span></h2>
+    <div class="ver-row"><span>Version 9.34.0</span><span>6d ago</span></div>
+    <p class="whats">Thanks for using the Service NSW mobile app! We use your feedback to make regular improvements.</p>
+  </div>
+
+  <div class="sec" style="padding-bottom:4px"><h2>Preview</h2></div>
+  <div class="preview-row">
+    <div class="prev navy">
+      <div class="lbl">Access NSW<br>Government services</div>
+      <div class="phone" style="background:#0A2A5C;padding:10px;color:#fff;font-size:10px">
+        <div style="font-weight:700;margin-bottom:8px">Favourites</div>
+        <div style="background:#fff;color:#000;border-radius:8px;padding:7px;margin-bottom:5px">
+          <b>Driver Licence</b><br><span style="color:#666;font-size:9px">Expiry: 10 Dec 2025</span>
+        </div>
+        <div style="background:rgba(255,255,255,.15);border-radius:8px;padding:7px">Work</div>
+      </div>
+    </div>
+    <div class="prev red">
+      <div class="lbl">Add and use<br>digital credentials</div>
+      <div class="phone" style="background:#1a1a1a;padding:10px;color:#fff;font-size:10px">
+        <div style="margin-bottom:8px">Wallet</div>
+        <div style="display:flex;gap:5px;margin-bottom:8px">
+          <span style="background:#007AFF;padding:3px 8px;border-radius:10px;font-size:9px">All (4)</span>
+          <span style="background:#333;padding:3px 8px;border-radius:10px;font-size:9px">Favourites (2)</span>
+        </div>
+        <div style="background:#fff;color:#000;border-radius:9px;padding:9px"><b>Driver Licence</b></div>
+      </div>
+    </div>
+    <div class="prev red">
+      <div class="lbl">Apply for and use<br>vouchers</div>
+      <div class="phone" style="background:#1a1a1a;padding:10px;color:#fff;font-size:10px">
+        <div style="margin-bottom:6px">Vouchers</div>
+        <div style="background:#fff;color:#000;border-radius:9px;padding:8px">
+          <b>Active and Creative Kids</b><br>
+          <span style="color:#0a0;font-size:9px">Available for one use</span><br>
+          <span style="font-size:18px;font-weight:700">$50</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<div class="tabbar">
+  <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg><span>Today</span></div>
+  <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4.5 16.5c.8-2.5 3-4 5.5-4s4.7 1.5 5.5 4"/><circle cx="9" cy="8" r="2.5"/><path d="M14.5 7.5c1.5-1 3.5-1 5 0"/><path d="M19 12c1.2.8 2 2.2 2 3.8"/></svg><span>Games</span></div>
+  <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 12h8M12 8v8"/></svg><span>Apps</span></div>
+  <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg><span>Arcade</span></div>
+  <div class="tab active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>Search</span></div>
+</div>
+
+<script>
+const MAG = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>`;
+const STORIES = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><path d="M8 7h8M8 11h8"/></svg>`;
+const PERSON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="12" cy="10" r="3"/><path d="M6 18c1.5-2.5 4-4 6-4s4.5 1.5 6 4"/></svg>`;
+const WATCH = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M9 2v2M15 2v2M9 20v2M15 20v2"/><circle cx="12" cy="12" r="3"/></svg>`;
+
+const SUGGESTIONS = [
+  {t:"service nsw", ico: MAG},
+  {t:"service wa", ico: MAG},
+  {t:"service victoria", ico: MAG},
+  {t:"servicem8", ico: MAG},
+  {t:"services australia", ico: MAG},
+  {t:"service victoria mobile app", ico: MAG},
+  {t:"service tasmania", ico: MAG},
+  {t:"service sa", ico: MAG},
+  {t:"an evil serpent rears its head in Stories", ico: STORIES},
+  {t:"services australia in Developers", ico: PERSON},
+  {t:"servicem8 - job management app in Watch Apps", ico: WATCH},
+  {t:"snapchat", ico: MAG},
+  {t:"spotify", ico: MAG},
+  {t:"sportsbet", ico: MAG},
+  {t:"signal", ico: MAG},
+  {t:"shein", ico: MAG},
+  {t:"strava", ico: MAG},
+  {t:"seek", ico: MAG},
+  {t:"mygov", ico: MAG},
+  {t:"serializd", ico: MAG}
+];
+
+let lastView = "home";
+
+function show(id) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function goHome() {
+  document.getElementById('sugg-input').value = '';
+  document.getElementById('res-input').value = '';
+  document.getElementById('clear-btn').style.display = 'none';
+  show('view-home');
+}
+
+function startSearch() {
+  show('view-suggestions');
+  const inp = document.getElementById('sugg-input');
+  inp.value = '';
+  inp.focus();
+  renderSuggestions('');
+}
+
+function clearInput() {
+  const inp = document.getElementById('sugg-input');
+  inp.value = '';
+  document.getElementById('clear-btn').style.display = 'none';
+  renderSuggestions('');
+  inp.focus();
+  show('view-suggestions');
+}
+
+function renderSuggestions(q) {
+  const list = document.getElementById('sugg-list');
+  const clear = document.getElementById('clear-btn');
+  clear.style.display = q ? 'flex' : 'none';
+
+  if (!q.trim()) {
+    list.innerHTML = '';
+    return;
+  }
+
+  const lower = q.toLowerCase().trim();
+  let matches = SUGGESTIONS.filter(s => s.t.toLowerCase().includes(lower));
+
+  matches.sort((a, b) => {
+    const aStarts = a.t.toLowerCase().startsWith(lower) ? 0 : 1;
+    const bStarts = b.t.toLowerCase().startsWith(lower) ? 0 : 1;
+    if (aStarts !== bStarts) return aStarts - bStarts;
+    return a.t.length - b.t.length;
+  });
+
+  if (/^ser/.test(lower)) {
+    matches = matches.filter(m => m.t !== 'service nsw');
+    matches.unshift({t:'service nsw', ico: MAG});
+  }
+
+  list.innerHTML = matches.slice(0, 12).map(m => `
+    <li class="sugg-item" onclick="doSearch('${m.t.replace(/'/g,"\\'")}')">
+      <span class="sugg-ico">${m.ico}</span>
+      ${m.t}
+    </li>
+  `).join('');
+}
+
+document.getElementById('sugg-input').addEventListener('input', e => renderSuggestions(e.target.value));
+document.getElementById('sugg-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    doSearch(e.target.value.trim() || 'service nsw');
+  }
+});
+
+function doSearch(query) {
+  document.getElementById('res-input').value = query;
+  document.getElementById('sugg-input').value = query;
+  const body = document.getElementById('results-body');
+
+  body.innerHTML = `
+    <div class="featured">
+      <div class="feat-top">
+        <div class="icon"><img src="tradify.png" alt="Tradify"></div>
+        <div style="flex:1">
+          <div class="feat-name">Tradify - Quote & Invoice Tool <span class="ad">Ad</span></div>
+          <div class="feat-sub">Tradie job management software</div>
+        </div>
+        <button class="btn btn-get">Get</button>
+      </div>
+      <div class="feat-meta">
+        <span>★★★★★ 4K</span>
+        <span>👤 Tradify Limited</span>
+        <span>💼 Business</span>
+      </div>
+      <div class="shots">
+        <div class="shot dark">
+          <div>TRADIFY</div>
+          <div style="font-size:14px;margin-top:4px">The Best Tool for the Job</div>
+          <div style="flex:1;margin-top:10px;background:rgba(255,255,255,.12);border-radius:8px"></div>
+        </div>
+        <div class="shot">
+          <div style="font-size:14px">Everything you need to run your business.</div>
+          <div style="font-size:11px;opacity:.9;margin-top:3px">All in one place.</div>
+          <div style="flex:1;margin-top:10px;background:rgba(255,255,255,.15);border-radius:8px"></div>
+        </div>
+        <div class="shot">
+          <div style="font-size:14px">Purpose Built for the Trades</div>
+          <div style="margin-top:10px;font-size:11px;line-height:1.55">
+            📄 Invoices & Payments<br>📞 Enquiries<br>📅 Manage & Schedule<br>📝 Quotes & Estimates
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="result-row" onclick="openDetail()">
+      <div class="icon"><img src="icon1.png" alt="Service NSW"></div>
+      <div class="info">
+        <div class="name">Service NSW</div>
+        <div class="sub">Digital licences and more</div>
+        <div class="meta-line">
+          <span class="stars">★★★★★</span> 222K
+          <span>👤 Service NSW</span>
+          <span>#19 Utilities</span>
+        </div>
+      </div>
+      <a href="servicensw://" class="btn btn-open" onclick="event.stopPropagation()">Open</a>
+    </div>
+
+    <div class="result-row">
+      <div class="icon"><img src="mygov.png" alt="myGov"></div>
+      <div class="info">
+        <div class="name">myGov</div>
+        <div class="sub">Australian Government</div>
+        <div class="meta-line">
+          <span class="stars">★★★★☆</span> 5.4K
+          <span>👤 Services Australia</span>
+          <span>#1 Utilities</span>
+        </div>
+      </div>
+      <button class="btn btn-open">Open</button>
+    </div>
+  `;
+  show('view-results');
+}
+
+function openDetail() {
+  lastView = 'results';
+  show('view-detail');
+  window.scrollTo(0,0);
+}
+
+function backFromDetail() {
+  show(lastView === 'results' ? 'view-results' : 'view-suggestions');
+}
+</script>
+</body>
+</html>
